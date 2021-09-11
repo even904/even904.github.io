@@ -143,6 +143,118 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Diary-2021-9-11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/09/11/Diary-2021-9-11/">Diary_2021.9.11</a>
+    </h1>
+  
+
+        
+        <a href="/2021/09/11/Diary-2021-9-11/" class="archive-article-date">
+  	<time datetime="2021-09-10T17:05:22.947Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>一、最近项目内容</h1>
+- 能量机关用M3508减速电机驱动，使机构整体按三角函数的速度旋转。
+- 能量机关灯带采用WS2812/SK6812，官方采用SK6812 mini，根据成本预计选择SK6812 144灯
+- 击打传感器（装甲板）
+---
+<h1>二、实现与拓展</h1>
+<h3>1.电机</h3>
+- 首先应调稳空载时串级pid，采用速度环和电流环
+- 调节pid时需观察数据变化，可配置串口打印数据至vofa上，从而进行pid整定
+- 增加一阶低通滤波，获得更精确的数值，使pid整定更符合要求
+- 将电机电流和速度限幅提升至正常水平
+- 增加电机速度控制函数，使电机能够以三角函数速度转动，单位为rpm，其中需乘以的速度常数MAX_SPEED=减速比
+
+<pre><code>    t单位为s，且每次大能量机关进入可激活状态时，t 重置为零。
+    大能量机关会在进入可激活状态前 10s 开始旋转，其实际转速与速度目标函数的时间误差在 500ms 内。
+
+    机构速度目标函数为：spd=0.785*sin（1.884*t)+1.305  单位rpm
+
+    电机速度目标函数为：speed=MAX_SPEED*spd 
+</code></pre>
+<ul>
+<li>由于M3508本身读取的速度不够准确，因此需要引入编码器（霍尔编码器/光电编码器）。</li>
+<li>编码器需要进行输入捕获读取，采用定时器的硬件编码器模式。</li>
+</ul>
+<h3>2.灯带</h3>
+- 预计使用SK6812灯带
+<h3>3.装甲板</h3>
+- 预计使用4个应变片，pcb打样制作电阻测量放大电路，然后用MCU读取变化从而判定击打事件
+<h3>4.控制</h3>
+- 遥控器配置比赛模式和调试模式。遥控器为USART+DMA双缓冲
+<h3>5.系统</h3>
+- 整个系统在定时器内部运行，优先级等会对can通讯等带来影响，依据正点原子给出的解决方法，可以在中断内设置标志位，在主函数中读标志位，处理后再清除标志位。另外尝试一下用多个定时器解决。
+
+<hr>
+<h1>三、优化</h1>
+
+<p>暂无阶段性成果</p>
+<hr>
+<p>version_1.0</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">-pid -电机 -STM32F427IIHX -RM -能量机关</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/09/11/Diary-2021-9-11/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Summary of AUG" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -493,6 +605,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">-stm32 -AD -SW -python -latex -PR -AE -PS -C/C++ -vscode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">-pid -电机 -STM32F427IIHX -RM -能量机关</a>
               </li>
             
             <div class="clearfix"></div>
