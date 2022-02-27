@@ -16,13 +16,18 @@
 <meta property="og:description" content="电子信息工程本科在读">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="even904">
-<meta property="article:tag" content="学习ing...,STM32,ROBOMASTER,编程,硬件,diy">
+<meta property="article:tag" content="学习ing...">
+<meta property="article:tag" content="STM32">
+<meta property="article:tag" content="ROBOMASTER">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="硬件">
+<meta property="article:tag" content="diy">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="even904的博客" type="application/atom+xml">
   
   
-    <link rel="icon" href="/assets/img/EVEN.jpg">
+    <link rel="icon" href="/assets/img/EVEN.png">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -143,6 +148,659 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-动态系统的建模与分析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/27/%E5%8A%A8%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%88%86%E6%9E%90/">动态系统的建模与分析</a>
+    </h1>
+  
+
+        
+        <a href="/2022/02/27/%E5%8A%A8%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%88%86%E6%9E%90/" class="archive-article-date">
+  	<time datetime="2022-02-27T13:01:32.625Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+<h1 id="动态系统的建模与分析"><a href="#动态系统的建模与分析" class="headerlink" title="动态系统的建模与分析"></a>动态系统的建模与分析</h1><hr>
+<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><blockquote>
+<p>控制就是使<strong>受控对象</strong>产生<strong>预期响应</strong>，即按照预期的方式工作。</p>
+</blockquote>
+<p>受控对象应该是一个<strong>动态系统</strong>，在生活中，受控对象可以是：</p>
+<blockquote>
+<ul>
+<li>工程技术系统，家电、工业自动化、精确制导、航天等</li>
+<li>社会系统和经济系统</li>
+<li>生态系统和生命系统</li>
+</ul>
+</blockquote>
+<p>动态系统常常可以使用微分方程来描述 <strong>（描述受控对象的动态行为和表现）</strong> ，利用系统内在的物理规律建立输入与输出的微分方程模型，通过计算、仿真等手段解出控制量变化时受控对象每个时刻的状态，以获得人们所需要的输出或状态。</p>
+<hr>
+<h2 id="2-电路系统建模"><a href="#2-电路系统建模" class="headerlink" title="2 电路系统建模"></a>2 电路系统建模</h2><p><img src="https://raw.githubusercontent.com/even904/MD_Images/main/example_img/MADS_RLC.png"> <em>fig-1</em></p>
+<p>$如图： L=2H,C=\frac{1}{4} F ,R_1=1\Omega,R_2=3\Omega.\quad 试建立  e_i与e_o  的微分方程模型。$</p>
+<p>$解：设左、右网孔电流分别为  i_1,i_2  ，其方向均为顺时针方向。$<br>$$ loop1: e_L+e_C-e_i=0 \tag{2.1}$$  $$ loop2: e_{R_1}+e_{R_2}-e_C=0 \tag{2.2} $$<br>$ 由式(2.1)(2.2)，消去e_C得： $<br>$$ e_L+e_{R_1}+e_{R_2}-e_i=0 \tag{2.3}$$<br>$ 根据元件伏安特性，写出如下方程： $<br>$$ \begin{cases}<br>    e_L=L{i_1}’=2{i_1}’ \tag{2.4} \<br>    e_C=\dfrac{1}{C} \displaystyle\int_0^t (i_1-i_2)dt=4\int_0^t (i_1-i_2)dt \<br>    e_{R_1}=i_2R_1=i_2 \<br>    e_{R_2}=i_2R_2=3i_2<br>\end{cases} $$<br>$ 将式(2.4)代入式(2.1),(2.2)中并化简，分别得： $<br>$$ 2{i_1}’+4\int_0^t (i_1-i_2)dt-e_i=0 \tag{2.5} $$ $$ i_2=\int_0^t(i_1-i_2)dt \tag{2.6} $$<br>$ 对式(2.6)求二阶导，移项得： {i_1}’={i_2}’’+{i_2}’ . 将其代入式(2.5)得： $ $$ 2({i_2}’’+{i_2}’)+4i_2=e_i \tag{2.7} $$ $\because e_o=e_{R_2}=3i_2 , \therefore i_2=\dfrac{1}{3}e_o, $ $$  \therefore \quad 2{e_o}’’+2{e_o}’+4e_o=3e_i \tag{2.8} $$</p>
+<p>由此可见，建模的目标是建立输入与输出间的微分方程联系。</p>
+<hr>
+<h2 id="3-流体系统建模"><a href="#3-流体系统建模" class="headerlink" title="3 流体系统建模"></a>3 流体系统建模</h2><p>例3.1：<br><img src="https://raw.githubusercontent.com/even904/MD_Images/main/example_img/MADS_fluid%20system.png" width="70%"></p>
+<p>$ 已知：进口处流量为q_{in} ,容器横截面积为A ,出口处的流阻是R ,求液面的高度h的动态方程(\frac{dh}{dt}=?)。$<br>讨论范围：</p>
+<ul>
+<li><p>流体为不可压缩的均质</p>
+</li>
+<li><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>符号</th>
+<th>单位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>流量 flow rate</td>
+<td>$q$</td>
+<td>$ m^3/s $</td>
+</tr>
+<tr>
+<td>体积 volume</td>
+<td>$v$</td>
+<td>$ m^3 $</td>
+</tr>
+<tr>
+<td>高度 height</td>
+<td>$h$</td>
+<td>$ m $</td>
+</tr>
+<tr>
+<td>压强 pressure</td>
+<td>$p$</td>
+<td>$ N/m^3(Pascal) $</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>几种压强</p>
+<ol>
+<li>由流体重力产生的压强称为静压(Hydrostatic Pressure).$$ P_{Hydro}=\frac{F_{Hydro}}{A}=\frac{mg}{A}=\frac{\rho Agh}{A}=\rho gh $$</li>
+<li>绝对压强(Absolute Pressure)：大气压加流体静压. $$ P_{abs}=P_a+P_{Hydro}=P_a+\rho gh $$</li>
+<li>表压(Gauge Pressure)：绝对压强与参考压强的差.如果参考压强为大气压，则表压等于静压.</li>
+</ol>
+</li>
+<li><p>流阻：流体流动过程中通过管道、连接时受到阻力产生压差的描述(类比电阻)。<br>例如流量为$q$，通过管道前压强为$p_1$，通过管道后压强为$p_2$，流阻为$R$，则有：<br>$$ p_1-p_2=\rho qR $$</p>
+</li>
+<li><p>理想压源：<br>压强$p_1$的流体经理想压源$p_S$得到压强为$p_2$的流体，则：<br>$$p_2=p_1+p_S$$</p>
+</li>
+</ul>
+<p>通过基本法则<strong>质量守恒定律</strong>建立方程。<br>$$ \begin{align*}<br>     \frac{\frac{dm}{dt}}{\rho}&amp;=\frac{\dot{m_{in}}}{\rho}+\frac{\dot{m_{out}}}{\rho}<br>     \ \frac{dV}{dt}&amp;=q_{in}-q_{out}<br>     \ A\frac{dh}{dt}&amp;=q_{in}-q_{out}<br>\end{align*} $$ $$ \therefore  \frac{dh}{dt}=\frac{1}{A}(q_{in}-q_{out}) \tag{3.1} $$ 绝对压强为大气压与静压之和，而大气压不变，则：<br>$$\because \quad P=P_a+\rho gh ,\quad \frac{dP}{dt}=\frac{d(P_a+\rho gh)}{dt} \ \therefore \qquad \frac{dP}{dt}=\rho g\frac{dh}{dt} \tag{3.2} $$<br>将式（3.2）代入式（3.1）得：$$ \frac{dP}{dt}=\frac{\rho g}{A}(q_{in}-q_{out}) \tag{3.3}$$</p>
+<p>现考察开头问题：<br>由质量守恒得：$$ \frac{dV}{dt}=q_{in}-q_{out} $$ 将体积V用h表示得：$$ A\frac{dh}{dt}=q_{in}-q_{out} \tag{3.4}$$ 由流阻定义得：$$ p_1-p_a=\rho q_{out}R \tag{3.5}$$ $$ \therefore q_{out}=\frac{p_1-p_a}{\rho R}=\frac{(p_a+\rho gh-p_a)}{\rho R}=\frac{gh}{R} \tag{3.6}$$ 将式（3.6）代入式（3.4）得：$$ A\frac{dh}{dt}=q_{in}-\frac{gh}{R} $$ $$ \therefore \frac{dh}{dt}=\frac{q_{in}}{A}-\frac{gh}{AR} \tag{3.7}$$ 此即液面的高度h的动态方程。</p>
+<hr>
+<h2 id="4-拉普拉斯变换"><a href="#4-拉普拉斯变换" class="headerlink" title="4 拉普拉斯变换"></a>4 拉普拉斯变换</h2><p>拉普拉斯变换可以将时域上的函数 $ f(t) $ 转换为复数域上的函数 $ F(s) $，从而简化系统分析的难度。<br>输入函数卷积冲激响应得到输出函数，设输入为 $ f(t) $,冲激响应为 $ h(t) $,输出函数为 $ y(t) $,则：<br>$$ y(t)= f(t)<em>h(t) \tag{4.1}$$ 简单推导可参照：<a href="/%E5%8D%B7%E7%A7%AF%E7%A7%AF%E5%88%86%E5%8E%9F%E7%90%86.pdf">卷积积分原理</a><br>基本函数拉普拉斯变换的推导$\mathscr{L} [e^{-at}]=\dfrac{1}{s+a}$<br>$$\begin{align</em>}<br>\mathscr{L} [f(t)] &amp;= \mathscr{L} [e^{-at}]=\int_0^{\infty}e^{-at}e^{-st}dt \ &amp;= \int_0^{\infty}e^{-(a+s)t}dt<br>\ &amp;=-\frac{1}{a+s} e^{-(a+s)t}\bigg|<em>0^\infty<br>\ &amp;=\bigg( \lim</em>{t \to \infty} -\frac{1}{a+s} e^{-(a+s)t}\bigg)-(-\frac{1}{a+s})<br>\ &amp;=0+\frac{1}{a+s}<br>\ &amp;=\frac{1}{s+a} \tag{4.2}<br>\end{align*}$$</p>
+<p>拉普拉斯变换的性质：</p>
+<ul>
+<li>线性性质</li>
+<li>导数的拉普拉斯变换（分部积分法） $$\begin{align} \mathscr{L}[{f}’(t)]&amp;=\int_0^{+\infty}{f}’(t)e^{-st}dt \ &amp;=f(t)e^{-st} \bigg|<em>0^{+\infty}-\int_0^{+\infty}f(t)(-se^{-st})dt \&amp;=\lim</em>{t \to \infty}f(\infty)e^{-st}-f(0)+s\int_0^{+\infty}f(t)e^{-st}dt\ &amp;=sF(s)-f(0) \tag{4.3}\end{align}$$<br>$$ \mathscr{L}[{f}’’(t)]=s^2F(s)-sf(0)-{f}’(0) \tag{4.4}$$</li>
+<li>积分的拉普拉斯变换<br>$$\mathscr{L}[\int_0^tf(\tau)d\tau]=\frac{1}{s}F(s) \tag{4.5}$$</li>
+<li>卷积的拉普拉斯变换<br>$$\mathscr{L}[f(t)*g(t)]=F(s)G(s) \tag{4.6}$$</li>
+</ul>
+<p>例4.1：对电路方程$ {e}’=L{i}’’+R{i}’+\dfrac{1}{C}i $ 进行拉普拉斯变换得$$ sE(s)=(Ls^2+sR+\frac{1}{C})I(s) $$移项，得：$$ I(s)=\frac{1}{Ls^2+sR+\frac{s}{C}}E(s) \tag{4.7}$$<br>称函数$\displaystyle H(s)=\frac{1}{Ls^2+sR+\frac{s}{C}}$为该电路系统的传递函数（Transfer Function）。</p>
+<hr>
+<h2 id="5-拉普拉斯变换的收敛域-ROC-与逆变换-ILT"><a href="#5-拉普拉斯变换的收敛域-ROC-与逆变换-ILT" class="headerlink" title="5 拉普拉斯变换的收敛域(ROC)与逆变换(ILT)"></a>5 拉普拉斯变换的收敛域(ROC)与逆变换(ILT)</h2><h4 id="1-收敛域（ROC）：Region-of-Convergence"><a href="#1-收敛域（ROC）：Region-of-Convergence" class="headerlink" title="1. 收敛域（ROC）：Region of Convergence"></a>1. 收敛域（ROC）：Region of Convergence</h4><p>例5.1：求函数 $f(t)=e^{-at},a \in \R $的拉普拉斯变换的收敛域。<br>解：$$ \mathscr{L}[e^{-at}]=\int_0^{+\infty}e^{-at}e^{(-\sigma+j\omega )t}dt=\int_0^{+\infty}e^{-(a+\sigma)t}e^{-j\omega t}dt \tag{5.1}$$ 要使式（5.1）中的积分收敛，则需 $\displaystyle -(a+\sigma)&gt;0  \Rightarrow \sigma &gt; -a . $ 因此函数 $f(t)=e^{-at},a \in \R $的拉普拉斯变换的收敛域为 $ \sigma&gt;-a. $</p>
+<ul>
+<li>常系数线性系统 $\displaystyle \Leftrightarrow $ 线性时不变系统。</li>
+<li>非线性系统需要线性化或使用非线性分析、控制方法。</li>
+</ul>
+<h4 id="2-拉普拉斯逆变换（ILT）与极点"><a href="#2-拉普拉斯逆变换（ILT）与极点" class="headerlink" title="2. 拉普拉斯逆变换（ILT）与极点"></a>2. 拉普拉斯逆变换（ILT）与极点</h4><p>例5.2：求 $\displaystyle F(s)=\frac{-s+5}{s^2+5s+4} $ 的拉普拉斯逆变换.<br>解：$$ \mathscr{L}^{-1}[F(s)]=\frac{-s+5}{(s+4)(s+1)}=\frac{A}{s+4}+\frac{B}{s+1}=\frac{A(s+1)+B(s+4)}{(s+4)(s+1)} $$ $$ \Rightarrow A(s+1)+B(s+4)=-s+5 \ \therefore s=-1 \Rightarrow B(-1+4)=1+5 \Rightarrow B=2 \ s=-4 \Rightarrow A=-3$$ $$ \therefore \mathscr{L}^{-1}[F(s)]=\mathscr{L}^{-1}[\frac{-3}{s+4}+\frac{2}{s+1}]=-3e^{-4t}+2e^{-t} \tag{5.2}$$<br>式（5.2）中指数函数的负幂次系数-4，-1叫做传递函数的极点。</p>
+<blockquote>
+<p>note：可以使用求根公式等方法求出传递函数的极点。</p>
+</blockquote>
+<p>例5.3：求 $ \displaystyle F(s)=\frac{4s+8}{s^2+2s+5} $的拉普拉斯逆变换。<br>解：用例5.2中的方法，可得:$$ \mathscr{L}^{-1}[F(s)] = \mathscr{L}^{-1}[\frac{i+2}{s+1+2i}+\frac{-i+2}{s+1-2i}]=e^{-t}(2\sin{2t}+4\cos{2t}) \tag{5.3}$$<br>可见例5.3中极点为 $-1\pm 2i $，$-1$到了 $e^{-t}$ 部分，$2i$到了$ \sin2t ,\cos2t $ 振动部分。</p>
+<hr>
+<h2 id="6-传递函数与拉普拉斯变换"><a href="#6-传递函数与拉普拉斯变换" class="headerlink" title="6 传递函数与拉普拉斯变换"></a>6 传递函数与拉普拉斯变换</h2><img src="https://raw.githubusercontent.com/even904/MD_Images/main/example_img/MADS_fluid%20system.png" width="50%">
+
+<p>由例3.1，对该流体系统建模，得到的动态方程为：<br>$$ \frac{dh}{dt}+\frac{g}{RA}h=\frac{q_{in}}{A} \tag{6.1}$$ 设$ A=1 m^2, x=h(输出), u=q_{in}(输入) $，初始条件为$X(0)=0$，对方程两端进行拉普拉斯变换：<br>$$ \mathscr{L}[\dot{x}(t)+\frac{g}{R}x(t)]=\mathscr{L}[u(t)] $$ $$ sX(s)+\frac{g}{R}X(s)=u(s) \tag{6.2}$$ 移项得：<br>$$ \frac{X(s)}{u(s)}=\frac{1}{s+\frac{g}{R}}=G(s) \tag{6.3}$$<br>$$ \therefore u(s)G(s)=X(s) \tag{6.4}$$ 此类LTI系统输入与输出通常都是卷积的关系，即$ \displaystyle x(t)=\int_0^t u(t)g(t-\tau)d\tau .$<br>现考虑输入为 $ u(t)=C ,\quad C \in \R为常数 .$<br>则$$ \mathscr{L}[u(t)]=\mathscr{L}[Ce^0]=C\frac{1}{s+0}=C\frac{1}{s} $$<br>故由式(6.4)可知，系统的输出为<br>$$ \begin{aligned}<br>  X(s)&amp;=u(s)G(s)=C\frac{1}{s}\cdot\frac{1}{s+\frac{g}{R}} \<br>  &amp;=C(\frac{m}{s}+\frac{n}{s+\frac{g}{R}})=C\bigg[\frac{m(s+\frac{g}{R}+ns)}{s(s+\frac{g}{R})}\bigg]<br>\end{aligned} $$ 待定系数$m,n$,分子部分需等于1<br>$$ \therefore m(s+\frac{g}{R})+ns=1 $$<br>$$ \begin{cases}<br>  s=0: m(0+\frac{g}{R})=1 \qquad \Rightarrow m=\frac{R}{g} \<br>  s=-\frac{g}{R} n(-\frac{g}{R})=1 \qquad \Rightarrow n=-\frac{R}{g} \tag{6.5}<br>\end{cases} $$<br>由式(6.5)得，输出函数的拉普拉斯变换为：<br>$$ X(s)=C\bigg(\frac{R}{g}\cdot\frac{1}{s}-\frac{g}{R}\frac{1}{s+\frac{R}{g}}\bigg)=\frac{CR}{g}\bigg(\frac{1}{s-0}-\frac{1}{s+\frac{g}{R}}\bigg) $$<br>$$ \therefore X(t)=\mathscr{L}^{-1}[X(s)]=\frac{CR}{g}\big(e^{0t}-e^{-\frac{g}{R}t}\big)\=\frac{CR}{g}(1-e^{-\frac{g}{R}t}) \tag{6.7}$$<br>式(6.7)中指数项幂次系数$\displaystyle 0,-\frac{g}{R} $为传递函数的极点(Poles)，从时域函数上看，它反映了动态系统输出的稳定性、收敛或发散的速率等性质。</p>
+<blockquote>
+<p>根据以上分析，我们可以通过改变系统输入来进行极点配置，从而使输出具有某些稳定性、一定的收敛速率等性质。</p>
+</blockquote>
+<hr>
+<p>传递函数<br>…LQR(Linear Quadratic Regulator)<br>Q&gt;&gt;R 看重误差 R&gt;&gt;Q 看重输入</p>
+<hr>
+<h2 id="7-一阶系统的单位阶跃响应"><a href="#7-一阶系统的单位阶跃响应" class="headerlink" title="7 一阶系统的单位阶跃响应"></a>7 一阶系统的单位阶跃响应</h2><p>对于例3.1中讨论的流体系统，我们得到式(6.1)所示的动态方程，用x表示h，即：<br>$$ \dot{x}(t)+\frac{g}{R}x(t)=u(t) \tag{7.1}$$<br>本篇讨论的均为LTI系统。<br>对于一阶系统来说，其一般形式的传递函数可表达为$$ G(s)=\frac{a}{s+a} \tag{7.2}$$<br>单位阶跃(Unit Step)函数表达式为$$ u(t)=\begin{cases}<br>  0 \qquad t=0 \<br>  1 \qquad t&gt;0 \tag{7.3}<br>\end{cases} $$<br>对其进行拉普拉斯变换：<br>$$ \mathscr{L}[u(t)]=\int_0^{+\infty}1\cdot e^{-st}dt=-\frac{1}{s}e^{-st}\big|_0^\infty=\frac{1}{s} \tag{7.4}$$<br>故一阶系统的单位阶跃响应为：<br>$$ X(s)=\frac{1}{s}\cdot\frac{a}{s+a}=\frac{A}{s}+\frac{B}{s+a}=\frac{A(s+a)+Bs}{s(s+a)} \tag{7.5}$$<br>令 $ A(s+a)+Bs=a $ ,则：<br>$$ \begin{cases}<br>  s=-a \qquad \Rightarrow B(-a)=a \Rightarrow B=-1 \<br>  s=0 \qquad \quad \Rightarrow Aa=a \Rightarrow A=1<br>\end{cases} $$<br>对响应进行拉普拉斯逆变换：<br>$$ \mathscr{L}^{-1}[X(s)]=\mathscr{L}^{-1}[\frac{1}{s}-\frac{1}{s+a}] $$ </p>
+<p>$$ \therefore x(t)=1-e^{at} \tag{7.6}$$</p>
+<p>由指数函数性质易得，$a$越大，变化越快，即趋近稳定的速度越快。</p>
+<ul>
+<li>时间常数(time constant)<br>引入时间常数 $\tau=\frac{1}{a}$ 表征稳定速度。<br>$$ x(\tau)=x(\frac{1}{a})=1-e^{-a\cdot \frac{1}{a}}=1-e^{-1}=0.63 $$<br>即 $t=\tau$ 时，响应值达到稳定值的63%</li>
+<li>稳定时间(settling time)<br>稳定时间也叫整定时间。定义$T_{ss}=4\tau$<br>$$ x(T_{ss})=x(\frac{4}{a})=1-e^{a\cdot\frac{4}{a}}=1-e^{-4}=0.98 $$<br>也即达到稳定值的98%</li>
+</ul>
+<p><strong>注意</strong>：时间常数是系统特有的。因此通过测定时间常数，我们可以进行<strong>系统辨识</strong>。<br>对于例3.1，我们求得时域函数为：<br>$$ X(t)=\frac{CR}{g}(1-e^{-\frac{g}{R}t}) $$<br>假设测定 $T_{ss}=4$，稳定值为$5$, 则有：<br>$$ \because G(s)=\frac{1}{s+\frac{g}{R}} \ \  \therefore \tau=\frac{1}{\frac{g}{R}}1=\frac{R}{g}$$<br>$$又\because \frac{CR}{g}=5 \ \therefore C=5$$<br>这种使用阶跃函数进行系统辨识的方法称为<strong>Step Test</strong>.<br>此种一阶LTI系统又称为低通滤波器，其作用是滤除高频信号，保留低频信号。<br>就例3.1而言，其中的水池能够减缓瞬时输入的增减对输出带来的变化，相当于一个积分器。<br>积分可以减少高频信号对输出的影响，如：<br>$$ \int \cos x+\cos 100x =\sin x +\frac{1}{100} \sin 100x \tag{7.7}$$<br>式(7.7)中，高频项 $ \cos 100x $ 产生的输出被减小到原来的 $ \frac{1}{100} $.</p>
+<h4 id="7-5-换个角度分析单位阶跃响应"><a href="#7-5-换个角度分析单位阶跃响应" class="headerlink" title="7.5 换个角度分析单位阶跃响应"></a>7.5 换个角度分析单位阶跃响应</h4><p><strong>一阶线性时不变系统(First Order LTI)</strong></p>
+<p>在第7小节中讨论了用传递函数分析阶跃响应的方法，接下来使用相图(Phase-Portrait)法进行分析。</p>
+<p>考虑一个一阶线性时不变系统，其动态方程为 $$ \dot{x}+ax=au \qquad (t\geq 0, u=1)\ \Rightarrow \dot{x}=a-ax \ \dot{x}=a(1-x) \tag{7.5.1}$$<br>根据式(7.5.1)绘制 $\dot{x}$ 的图像：<br><img src='https://raw.githubusercontent.com/even904/MD_Images/main/example_img/MADS_Phase_Portrait.jpg' ><br>为一条斜率为 $ -a $ ，横截距为 $1$ ，纵截距为 $ a $ 的直线。<br>当系统初始条件 $ x(0)=0 $ 时，$ \dot{x}=a&gt;0 $ ，$ x $增加（向右移动），随着时间增加 $x$ 先增加，但 $ \dot{x} $ 在减小，故 $x$ 增速减慢，直到 $ \dot{x} $减小为0，$ x $ 变成一个常数，不再发生变化。<br><img src=''><br>由上述相图法分析可知，$x$ 最后将收敛于一个数0，与传递函数分析结果一致。<br>由这种方法还可以知道，当初始条件$ x(0) \not= 0 $时，$x$ 的变化趋势。</p>
+<hr>
+<h2 id="8-频率响应"><a href="#8-频率响应" class="headerlink" title="8 频率响应"></a>8 频率响应</h2><p>对于一个LTI系统来说，系统稳定时输出频率与输入频率相等。</p>
+<ul>
+<li>振幅响应</li>
+<li>幅角响应</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">控制系统</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">matlab</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">mathematica</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/02/27/%E5%8A%A8%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%88%86%E6%9E%90/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-卷积积分原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/13/%E5%8D%B7%E7%A7%AF%E7%A7%AF%E5%88%86%E5%8E%9F%E7%90%86/">卷积积分原理</a>
+    </h1>
+  
+
+        
+        <a href="/2022/02/13/%E5%8D%B7%E7%A7%AF%E7%A7%AF%E5%88%86%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2022-02-13T09:13:45.796Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+<h1 id="卷积积分原理"><a href="#卷积积分原理" class="headerlink" title="卷积积分原理"></a>卷积积分原理</h1><blockquote>
+<p>note by Even<br>date:2022/2/12 ;modified at 2022/2/13<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iL411E7QH?from=search&seid=5403291651274129151&spm_id_from=333.337.0.0">course</a> </p>
+</blockquote>
+<h3 id="LTI系统的性质"><a href="#LTI系统的性质" class="headerlink" title="LTI系统的性质"></a>LTI系统的性质</h3><p>对于一个线性时不变系统（LTIS），它具有两个主要性质：线性性和时不变性。与卷积积分原理紧密相关的是LTI系统的<strong>线性性质</strong>，线性性质包括叠加性和齐次性。</p>
+<ol>
+<li>讨论<strong>线性性质</strong>：</li>
+</ol>
+<ul>
+<li>叠加性：<br>  当单独输入的信号分别为 $ f_1(t),f_2(t),…,f_n(t) $ 时，LTI系统的响应分别为 $ y_1(t),y_2(t),…,y_n(t) $ ,则当输入信号 $ f(t)=f_1(t)+f_2(t)+…+f_n(t) $ 时，LTI系统的响应为 $ y(t)=y_1(t)+y_2(t)+…+y_n(t) $ ,故称LTI系统具有叠加性.</li>
+<li>齐次性：<br>  当输入信号为 $ f_1(t) $ 时，LTI系统的响应为 $ y_1(t) $ . 若当输入信号变为原来的 $a$ 倍，即 $ af_1(t) $ 时，LTI系统的响应也变为原来的 $a$ 倍，即 $ ay_1(t) (a为常数)$ ，故称LTI系统具有齐次性。</li>
+</ul>
+<ol start="2">
+<li><p>讨论<strong>时不变性质</strong>：</p>
+<p> 若输入信号为 $ f(t) $ 时，LTI系统输出信号为 $ y(t) $ .则当输入信号为 $ f(t-\tau) $ 时, LTI系统输出信号为 $ y(t-\tau) $ .</p>
+<p> 也就是说，不管在什么时间点，对系统施加相同的输入时，系统的输出都是相同的。</p>
+</li>
+</ol>
+<h3 id="LTI系统与微分方程"><a href="#LTI系统与微分方程" class="headerlink" title="LTI系统与微分方程"></a>LTI系统与微分方程</h3><p>一个LTI系统可以用一个微分方程来描述，例如，微分方程<br>$$ {y}’’(t)+3{y}’(t)+2y(t)={f}’(t)+f(t) $$ 若给定激励的具体函数形式，如 $f_1(t)=t^2$ , 再给定一定的初始条件,如 $ y(0_+)= m ,{y}’(0_+) = n (m,n \in \R) $ , 则问题化为常微分方程的初值问题，可求解响应 $ y(t) $. 同理，给定激励函数 $ f_2(t)=t^3 $ 及相应初值，我们可以求解该激励的响应 $ y_2(t) $.<br>但是，当激励信号为复杂信的叠加信号时，求解响应将非常麻烦。因此，我们需要一个基本信号来线性表示所有的激励，如此便可以通过叠加性和齐次性，一次性地求出响应。例如，激励 $$ f_1(t)=ax(t)+bx(t-t_1)+cx(t-t_2)+… $$  如果已知 $ x(t) $ 的响应是 $ h(t) $ , 则无需求解微分方程， 通过线性性质即可知 $ f_1(t) $ 的响应 $$ y_1(t)=ah(t)+bh(t-t_1)+ch(t-t_2)+… $$ 同理，激励 $ f_2(t),…,f_n(t) $ 及其响应 $ y_2(t),…,y_n(t) $ 也可用 $ x(t),h(t) $ 如此表出。<br>那么，是否存在这样的一个基本信号，可以表示所有的激励信号呢？是存在的。冲激信号 $ \delta(t) $ 即为这样一个基本信号。</p>
+<h3 id="冲激信号"><a href="#冲激信号" class="headerlink" title="冲激信号"></a>冲激信号</h3><p>冲激信号的本质是一个矩形脉冲，单位冲击信号表示该矩形的面积为1.取其宽度为 $ \tau $ , 则其高度为 $ \frac{1}{\tau} $ ，当 $ \tau \to 0 $ 时，矩形的高度 $ \frac{1}{\tau} \to + \infty $ ，在坐标图内用一个向上的箭头表示，括号内写上该“矩形”的面积。该“面积”即为冲激信号的系数。如单位冲激信号可表示为$ 1\cdot \delta(t) $ .</p>
+<p><img src="data:image/jpeg;base64,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u0NgdRv9sAtmEoP2qXrJ5mDzn+Af1resNPtdMtRbWkZSPcWOWLMzE5LMzEliT3JJrN8Kf8gef/sJX/8A6VzUAbdFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAGVpP/ACEtd/6/l/8ASeGtWsrSf+Qlrv8A1/L/AOk8NatXU3+S/Iint83+YUUUVBYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAEVytw1tItrLFFOR8jyxmRQfdQyk/mKwvC6XSXviNb2aGa4GpLvkhiMSH/RbfGFLMRxjuf6V0VYmh/8AIY8Tf9hJP/SS3oA26KKKACiiigAooooAKKKKACiiigAooooAKKKKACsTwp/yB5/+wlf/APpXNW3WJ4U/5A8//YSv/wD0rmoA26KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAMrSf8AkJa7/wBfy/8ApPDWrWVpP/IS13/r+X/0nhrVq6m/yX5EU9vm/wAwoooqCwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACsTQ/wDkMeJv+wkn/pJb1t1iaH/yGPE3/YST/wBJLegDbooooAKKKKACiiigAooooAKKKKACiiigDk77X9SgfUdQia3XTtOvI7Z4GiJeVTs3uG3fKRv4GDnbz142dca8h097m11K3sEgVpZpZ7YzLsAJPAdceuaoXfhmW5uLtFv1TTr25jubi3MG5yy7chX3YCtsXI2n+LBGeLuqaTNq2kz2FxdqFmmViyxf8shIGMZGecqCpPvnHagBPDcuqXGhwXGsGP7VNmQKkRj2ofuhlycNjGeeCcds1neE7ycxXVqdMu1hGo35F4Wi8pv9KlOAN+/25Xt6c109YnhT/kDz/wDYSv8A/wBK5qANuiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigDK0n/kJa7/1/L/6Tw1q1laT/wAhLXf+v5f/AEnhrVq6m/yX5EU9vm/zCiiioLCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAiuZXgtpJY7eW4dRkRRFQz+w3ED8yKwvC88lze+I5pbSa0dtSXMMxQuv+i2452My89eCetdFWJof/IY8Tf8AYST/ANJLegDbooooAKKKKACiiigAooooAKKKKACiiigAooooAKxPCn/IHn/7CV//AOlc1bdYnhT/AJA8/wD2Er//ANK5qANuiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigDK0n/kJa7/1/L/6Tw1q1laT/AMhLXf8Ar+X/ANJ4a1aupv8AJfkRT2+b/MKKKKgsKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArE0P/AJDHib/sJJ/6SW9bdYmh/wDIY8Tf9hJP/SS3oA26KKKACiiigAooooAKKKKACiiigAooooAwrnxPDbX00X2O4ktbeeO3uLtduyKR9uARncQN6ZIGBu9ji9qmqLpq26rBLc3FzJ5UEEWAztgseSQAAFJJPp64Fc5qGkalKuraVHYtJb6jfR3C3gkQJHH+73hgTu3DY2MAg5Xkc4t+ItLm1eXTrmXSnuobK7kEtk0ifv4mRlDYLbSM7W2sRxnvwQDd0+8a+tBM9rPaybmR4Z1wykHB6ZBHGQQSCKzvCn/IHn/7CV//AOlc1HhbT7jTtJeGeE26NcSyQWpYN9niLZVMgkcegJAzgcCqfhPSdNWK61JdPtBfvqN+GuhCvmkfapRgvjPQAde1AHT0UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAZWk/8hLXf+v5f/SeGtWsrSf+Qlrv/X8v/pPDWrV1N/kvyIp7fN/mFFFFQWFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAViaH/yGPE3/AGEk/wDSS3rWuba3vLaS3uoIp4JBh4pUDKw9CDwawvC9la6fe+I7Wytoba3TUl2RQxhEXNrbk4A4HJJ/GgDoqKKKACiiigAooooAKKKKACiiigAooooAKKKKACsTwp/yB5/+wlf/APpXNW3WJ4U/5A8//YSv/wD0rmoA26KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAMrSf8AkJa7/wBfy/8ApPDWrWVpP/IS13/r+X/0nhrVq6m/yX5EU9vm/wAwoooqCwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACsTQ/wDkMeJv+wkn/pJb1t1iaH/yGPE3/YST/wBJLegDbooooAKKKKACiiigAooooAKKKKACiiigBpkQSCMuocjIXPJ/Ch5EjXc7qq+rHArz/VIYXh8Q37Rxtq8GrQJbSsB5kf8AqfLVT1AO48Dg7m9TW94ssU1iPTLEXNgge9yY7yLzkmKxudmzI3HOGwSPu0AdEjpIu5GVl9VORWN4U/5A8/8A2Er/AP8ASuameEZVbSZrdbSztvsl1LbkWUXlwyFW5ZV5xnuMnkHk1W8J2c4iuro6ndtCdRvwLMrF5S/6VKMg7N/vy3f04oA6eiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigDK0n/kJa7/1/L/6Tw1q1laT/wAhLXf+v5f/AEnhrVq6m/yX5EU9vm/zCiiioLCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKxND/5DHib/ALCSf+klvWtcxPPbSRR3Etu7DAliClk9xuBH5g1heF4JLa98Rwy3c1266kuZpggdv9FtzzsVV46cAdKAOiooooAKKKKACiiigAooooAKKKKACiiigCpJpenzXyX0ljaveJjZcNCpkXGcYbGR1P5mibS9PuLd7eewtZYXk81o3hVlZ853EEYJzzmrdFAEVvbQWdulvbQxwQRjCRxKFVR6ADgVk+FP+QPP/wBhK/8A/SuatusTwp/yB5/+wlf/APpXNQBt0UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAZWk/wDIS13/AK/l/wDSeGtWsrSf+Qlrv/X8v/pPDWrV1N/kvyIp7fN/mFFFFQWFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAViaH/yGPE3/YST/wBJLetusTQ/+Qx4m/7CSf8ApJb0AbdFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFcXqOp6jGuraul9LHFp19HbpaKqmOSP8Ad792Rncd7YIIxhffPQa5qp063iigaP7ddP5VsshwoOMl2/2VHJ9eB1IoA1KxPCn/ACB5/wDsJX//AKVzU7wpeTX/AIW065uLj7RO8I8yXj5m7k44FUfCcmpeVdRtaWgsBqN/tnFyxlJ+1S9Y/LwOc/xn+lAHT0UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAZWk/8AIS13/r+X/wBJ4a1aytJ/5CWu/wDX8v8A6Tw1q1dTf5L8iKe3zf5hRRRUFhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFYmh/wDIY8Tf9hJP/SS3rWuWuFtpGtYopZwPkSWQxqT7sFYj8jWF4Xe6e98Rtewww3B1Jd8cMplQf6Lb4wxVSeMdh/WgDoqKKKACiiigAooooAKKKKACiiigAooooAxbjwza3F7NObq6SGeeO4ntEZRFLImMMfl3fwJkBgDtGR1zck0mzukK30Md8BIzp9qjR/Lyei8cAdPX3NXqKAKOj6RaaHpkOn2SbYYhgcAFj6nAAJql4U/5A8//AGEr/wD9K5q26xPCn/IHn/7CV/8A+lc1AG3RRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBlaT/AMhLXf8Ar+X/ANJ4a1aytJ/5CWu/9fy/+k8NatXU3+S/Iint83+YUUUVBYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABWJof/IY8Tf9hJP/AEkt626xND/5DHib/sJJ/wCklvQBt0UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUVzV54muLe5vJksom0yxuY7W4maUrJubZllXbgqu9c5IJw2OgzrapdXtrBGbG2imd3w7zS+XHCoBJdjgnHGMAdSOg5oAv1ieFP+QPP/ANhK/wD/AErmq1oWqHWdJjvTEIyzuhCvvVtrldytgblO3IOOQRWT4T1bTWiutNXULQ36ajflrUTL5oH2qU5KZz0IPTvQB09FFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAGVpP/ACEtd/6/l/8ASeGtWsrSf+Qlrv8A1/L/AOk8NatXU3+S/Iint83+YUUUVBYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABWJof8AyGPE3/YST/0kt61rm5t7O2kuLqeKCCMZeWVwqqPUk8CsLwve2uoXviO6srmG5t31JdksMgdGxa24OCODyCPwoA6KiiigAooooAKKKKACiiigAooooAKKKKAOVvfD2ozvqNlG1qdN1C8juZJHkYSxgbN6BQuGz5fB3DG48HHOtfJq8sSeRHYtidhJBM7bJoSCBltp2t0PQjjHfNalFAGR4c0qbSNNeCcxK8k8k3kwEmOEM2QiZA4H0HOeB0qPwp/yB5/+wlf/APpXNW3WJ4U/5A8//YSv/wD0rmoA26KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAMrSf8AkJa7/wBfy/8ApPDWrWVpP/IS13/r+X/0nhrVq6m/yX5EU9vm/wAwoooqCwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACsTQ/wDkMeJv+wkn/pJb1t1iaH/yGPE3/YST/wBJLegDbooooAKKKKACiiigAooooAKKKKACiiigAorKuPEWnW2omylklDrIkTyCFjHG742KzgbVJyvBP8Q9RVjUtVtdLjia4MhaZ/LiiijaR5GwThVUEngE+wFAF2sTwp/yB5/+wlf/APpXNWjp2o22qWgubV2KbmRg6FGRlOGVlIBBBHQ1neFP+QPP/wBhK/8A/SuagDbooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAytJ/5CWu/wDX8v8A6Tw1q1laT/yEtd/6/l/9J4a1aupv8l+RFPb5v8woooqCwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACsTQ/+Qx4m/7CSf8ApJb1t1iaH/yGPE3/AGEk/wDSS3oA26KKKACiiigAooooAKKKKACiiigAooooA4bUba6MWt6OtndG4v8AUYpoJkgZoyh8rLmQDau3Y2QSD8oxnIrZ1/XZrGzR7PTrua5edoFc2Usiw4zmRlRSxX0x97I5AyR0FFAGP4ahtodIAt2u3LSPJNLd27wySyMcsxV1UjJPHGMcDpVDwnpkCxXWoCS785tRvwVN3KYv+PqUcRbtg6dl9+tdPWJ4U/5A8/8A2Er/AP8ASuagDbooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAytJ/5CWu/9fy/+k8NatZWk/8AIS13/r+X/wBJ4a1aupv8l+RFPb5v8woooqCwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAIrm3S7tpIJGlVHGCYpWjYfRlII/A1heF7SOxvfEdvE0zImpLgzTPK/NrbnlnJY9e59q6KsTQ/+Qx4m/wCwkn/pJb0AbdFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABWJ4U/5A8//YSv/wD0rmrbrE8Kf8gef/sJX/8A6VzUAbdFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAGVpP/ACEtd/6/l/8ASeGtWsrSf+Qlrv8A1/L/AOk8NatXU3+S/Iint83+YUUUVBYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABWJof8AyGPE3/YST/0kt626xND/AOQx4m/7CSf+klvQBt0UUUAFFFFABRRRQAUUUUAFFFFABRRRQBwmpSTmPXNZFxcfbLDUoobdEmYIqDysoUB2ndvbORn5h6DHV63DdTaTOlpeNaPtJMqIGcKAchc8A++Dj0pk/h/TLjUDfS27GYukrATOEd0+6zIDtYjAwSCeB6DFxLSGOKaIBikzMzhnZsluuMngew4HagCh4WkeXwhoskjs8j2EDMzHJYmNckms7wnHqXlXUjXdobA6jf7YBbMJQftUvWTzMHnP8A/rXQ2lrDY2UFnbJsggjWKNMk7VUYAyeTwKyvCn/IHn/wCwlf8A/pXNQBt0UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAZWk/8hLXf+v5f/SeGtWsrSf+Qlrv/X8v/pPDWrV1N/kvyIp7fN/mFFFFQWFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBFcrcNbSLayxRTkfI8sZkUH3UMpP5isLwul0l74jW9mhmuBqS75IYjEh/wBFt8YUsxHGO5/pXRViaH/yGPE3/YST/wBJLegDbooooAKKKKACiiigAooooAKKKKACiiigAooooAKxPCn/ACB5/wDsJX//AKVzVt1ieFP+QPP/ANhK/wD/AErmoA26KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAMrSf+Qlrv/X8v/pPDWrWVpP/ACEtd/6/l/8ASeGtWrqb/JfkRT2+b/MKKKKgsKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArE0P/kMeJv8AsJJ/6SW9bdYmh/8AIY8Tf9hJP/SS3oA26KKKACiiigAooooAKKKKACiiigAooooAKyNavruC406xsWjjuL6Zk86RN6xoqM7HbkZPAA5757YOvWbq2mSX8llcW1ytvdWcxlid4/MUgqVZWXIyCGPcYIBoAybbV7/ULaGyadILz+0JbKe4hTjEYZtyBsgFgq8HOMnrgVm6Pc6z4bvX0qXSNSv4p7i7njdZbYkgzFgVJkU4IcFtwBDHjiujsdBig0x7W6kNxLNO9zLMgMRMrNu3Lg5XHAHJIAHJ61Zs9MtbO4eVDJLdMgVpZpTI+3PA5PA9hgEjPWtFKPLYycZc1/6/r+uhS/tzUf8AoVNY/wC/tp/8frKm1vVtQ1G4tk0TW7eO3VQyQSWYkLMCcktKeMYxjuDk8YrsKo3mkWt5cLcMZorgLs82CVo2K9cEqeR9enalBpPUqabWhh6X4i1ZkuIJ/Duq3MlvMY/NV7QEjAYbsTAbhu5xx9Ogv/25qP8A0Kmsf9/bT/4/WpaWcFjbrBbR7IwScZJJJOSSTySTySeTU5IAJJwB3pSabuhxTSszzr+1vFNy0Osx2OrJam2llMQaz8kElDH8pl3FdofcSQ2SMAdB0tv4iv7i1inXwpq5WRA4xLaYwRnvOD+gq1/YWnTlnRpTbysXaGO4YQuScklQccnqOh71ph495iDrvUZKA8gfSqnKL2IpxktzmtU8SarBZfufDOqRSySJEkkj2rBSzBc4E/J54HTOMkDmqY1bWdMvrUnSNeniuJDE0V1LZkkkMwKFZRg8dDxjNdfcW8N3byW9xGskUilXRuhFVLbRrW2ukui1xPNGpWN7idpPLB67dx4J9ep9aIyio2YTjJyuip/bmo/9CprH/f20/wDj9Yev614jvkl03S9E1WyuntJZEfzLTcXxtTkykBQxBJGW6YxXb1SvrGzvpIlmZkuEyYnjlMci+uCDnHqOlTFpPUuabWhz2na9q8F9dWE2g6xdeUkciF3sxIqtuGGImCnlDg9eufU6f9uaj/0Kmsf9/bT/AOP1oWdjbaZA/llvmO6WaaQszn1Zic/0HarSsGUMpBBGQR3om03dBBNRszjIdY1rU57mZdL1yKOOZoo4rZ7IBNpwdxeUktnPtj16m9pniTVLnT45JfDGpySAsjvFJahWKsVJGZ/Uf4Ejk61zo1rdTvMzXEbSDEggneMSdB820jJwAM9cVcghitoI4II1jijUKiKMBQOgFVKUWtCIRknqYF94l1G00+5uf+EV1UeTE0mXltdowCecTE4+gJrBbU/E+m3kmpzWGsS2nlwAxyvZ7GYuwkwqy5UENHtwScjBzXfymMRMZSojx827pj3rMt9AsIZIZEM8kcJDQQvOzxRnsVUnHHb07YohKKWoTjJvQh/tzUf+hU1j/v7af/H6ztU8Q6uZLSzt/D2rWr3MhBk32hfaoLEIDMV3HHfoMnBxXV7l3bcjdjOM84qC8sbe/iEdxHuCtuVgxVkbsVI5B9xUxaTuy5ptWRy9trer2OqpaSaHrdxFPE8kaTPZmRCpXOGWYAr8w+9yDjGc8av9uaj/ANCprH/f20/+P1estLt7GR5UaaWdxtaaeUyPt7AE9B7DHr1q7RNpvQUE0tThNT1fxJql3PbWGkavaC2lt9yRSWYdlLq0m4tKeqZCheM9T2GlpfiHVmjnhn8O6tcyW8xjMoe0UkYDDcPOA3AMAcccdjkDau9Os727DtJJHdIm3dBO0b7Seh2kZGfWpreC00u0SGILDCp43N1JOSSTySSSSTyTVOUXGxMYyUrv+vkZv9uaj/0Kmsf9/bT/AOP1zq6x4guNMbV49O1pJHj8+NA9mbdFxkKQZd5GOpOD1wB0rvay28P2DSk4mEJbe1sJmELHOTlM4OTyR0PpRTkluFSLlt+dipB4h1Ce3ilHhTWMOgbiW07jPeYH9BUn9uaj/wBCprH/AH9tP/j9bdFZmpymnX+r2t9q00vhfVWS7u1miCzWmVUQxJg/v+u5GPfgitD+3NR/6FTWP+/tp/8AH62UkSQExurAHBKnPNOoA5K717VrnUo7GLQNZtgIjM4jks/McZAGCZiAOucc8jpnNGna9q8N5c2M2g6xdCJUdGeSz8xQ2Rh8TBT93g9fX1PQ3umW1+0byh1liz5csUhR0z1wQc4Pp0NPstPt9PjdYFbMjb5Hdy7u3TLMSSeAB7AAdK05o8tjLllz3/r7jN/tzUf+hU1j/v7af/H65yfUvE+q3sVza6drNvbRXciPFC9mAEVHXndKSzeZtJBwu0HHqe8d1jQu7BVHJJOAKz59Fs7mZ5w9xEZsGQQXDxrJxjJCkdsc9aUGluVNN7f5GXpnibUrzTYZ28ManIzDDPFLahWIOCRmfOMj/wDX1p2o+JtRstNubkeFdVUxRM4MktrtBA4ziYnHrgGt+3EEcYt7fywsICbEI+QdhjtUjKHUqwBUjBBHBFK65r9B2fLbqcTPqmu6aI71tM12U+YizRzvZ+U+4hcKFlypyeMZ565rc/tzUf8AoVNY/wC/tp/8fqeHw/YwywuBO6W7boIpJ2aOI4wCqk447enbFalVOSe3+RNOLV7/AJ3OU1PxBq7SWtpb+HtWtmuHIMm+0Z9qgkhMzFdxx37Z4NUNE1jxFprWWn6no+rXk8lnvk3SWhYSptDlWEoyhL/xc9Ovbr7y1tNQX7PPhmQh12OVdD2YEEEfUU2z02204ySq8skrj55p5S7YHbJ6AegwKFKPLb+vvE4y5r/19xR/tzUf+hU1j/v7af8Ax+sh9a1jUdTuoU0fW7eG22qYrd7LfuK7sszSnsRgL75PYdkDkZHSqV3pdveTLMzTRShdvmQStGzLzwSp5AycZ6ZpQaT1Kmm1oYmm+ItWeOeKbw3qs8lvMYjIsloMjAIz++A3YYZxxn06C7/bmo/9CprH/f20/wDj9alpaQWNstvbRhIlyQMkkknJJJ5JJJJJ5NSvIkS7pHVBnGWOKmTTeg4ppWZ52dX8UXC2+tw2Oqrbm0lmePzLTyNxKNGNvm7tgUSBiSGyQQB0HUQ+Ib+aCOVfCmsbXUMP3tp0Iz3nzVhvDuntISRN5DP5jW3nN5JbOclM46846H0rUSRJASjqwBwdpzg+lXOUXsRTjJbnMat4k1aCzVYPDWqQTTSJCksj2pCFjjIAm5PoDgE4yarDWNZ0y/tA2j67PDcuYmiuHsyxfazAoVlGD8pyDxjJGMc9Zc2sF5btBcxLJE3VWFVrXR7a1uBcb7ieZQVR7idpDGD1C7jx9ep7miMoqNmEoycrop/25qP/AEKmsf8Af20/+P1g69rXiO/Nxpul6LqtlcfY3kjYSWm8yHKpkmUgID1xlunTv3NUruytNSdN7t5sDHa8MpR0JHIypzz6d6mLSepc02tDA07XtXiurqzm0DWLrygjozPZiRVbPDYmCnlSRjnB5HQnR/tzUf8AoVNY/wC/tp/8fq/aWlppiGKI7WmfczSSFnlf1LMck4A/AAdKuUSab0CCaVmcUuqa5qclxcJpevW6rI8UUdu9ltQoxXLbpcscg5HT0z9439M8S6pd6bBPJ4W1N5GX5miltdjEcEjMwOMj/wDX1rUuNDs7ieSXdcReacypBO0ayHplgpGTgYzWhHGkUaxxoqIgCqqjAAHQAVU5RasiIRkndnOaj4m1Kz0y6uR4W1RWiiZwZJbXaCBxuxMTj1wKztKg1jSV1DV7x7tXub6LdbXRi/eKyQRFsRFgrblbADHgAHJrtWVXRkYAqwwQe4rMh0OwiuIzmaXyCHiilnZ0iPQEKTj6Z6dsUQlFLUJxk3oalFFFZmoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBQu9Rltb63tk0y9uEmIDTwhPLiycZbcwPvwDxWJoFkLLxp4hTz552e3tJHknfcxJM34AcDgACuqqNYIUnknWKNZpAqvIFAZgM4BPU4ycfU0ASUUUUAFcl4m1B7qNdPn0y9hsvttuk9zKI/JmjMyArwxbDZAOQBjOa62o54IbqB4LiKOaGQbXjkUMrD0IPUUAc/4fSGz13X7W2SOGyS4i8uOPAVZDEpcADgH7pIHck965mwiZNa07VjFbC2n1u5VJUH+lsW81Qsh6FAQfl7BU/umu/g0vT7aGKGCxtooopPNjRIlAR+fmAA4PJ596RNI02LUGv49PtEvWyTcLCokORg/NjPIAoAuUUUUAVNRvJLC186Oxur1twHlWwTf9fmZRj8a4W9WO5sdc1SS28vWI9Tthb+cF86HIh8uMEHjO48A4O5uuTXotVJNL0+a/S+lsbZ7yPGy4aJTIuM4w2MjqfzNAHP+LlmvL7QbKL7K0M946v9pUvFvWJ2UMgI3cgkLkcgelXPCDr/AGRPAtvDB9mvJ4WFvuETMHOWQEnapJPy5wDkdq1ZdMsJ7aS2msbaSCRzI8bxKVZyc7iMYJzzmpba2gs7dLe1gjggjGEjiUKqj0AHAoAlooooA4/Urz+19Y0a0v8ASbu2svtrBkvVjMdwwhkKDCs2QCucHHO3uKteGJltNI1JYoy1vb310LWGLkmNXPyoPZtwA7dK37uztb+3MF5bQ3EJIJjmQOpI5BwaSKws7cQCG0gjFupSEJGB5SnqFx0BwOnpQBxfhi7lm8aXU15b3yXt3YxvKJbd0SLDvhFyOFAwM/xHJ6mu8pnkxCcziJPOKhDJtG4qDkDPXGSePen0AFUNT1GXT0jaLTL2+LkgrahCU9zvZf0zV+igDz2zhhWLRtQjjj/tabXJ455sASuN8wdCepARenQBV9BW94j/ALLkns2msU1TUHSSOzs2wyNnG5yDlVAwMuegOBknB2U0vT4797+OxtlvHBDXCxKJGzjq2M9h+Qqvc+G9CvViW60XTp1hXZEJbVGCL1wuRwPpQA7QtPk0nQbGwlm86S3hWNnGcEgds9uw9sVo1FbWtvZWyW1rBFBBGMJFEgVVHoAOBUtABWL4vkli8H6vJE7oy2r5dPvKuPmI9CBmtqkZQylWAIIwQe9AHM6Xa2th40uLbTIIILNtNikljgUKm7ewQ4HGSobnuFHoK6eqtjplhpkbR2FlbWqOcssESoCcYycD0q1QAUUUUAc94jiiudV8P2t2iyWct2++OQZR3ELlAwPB5BIHqB6U3wnsj02/t0ZUtY7+5jtgrYCxhzkL6ANuHtjFbl3Z2t/bmC8tobiEkExzIHUkcg4NMXTbBIoolsrZY4UaONBEuEQjBUDHAOBkUAcv4e02ym1i11DRrRLXS7S3eBLgDD35Yr8xPVkG3O5uWJyOOT2VZll4c0PTbkXNho2nWs4BAlgtURgD1GQM1p0AFFFFAHntnDCsWjahHHH/AGtNrk8c82AJXG+YOhPUgIvToAq+gq94+vJZdKnsFgvGsZLOWWee2iZw2FO2PcvQE8sT2GP4jjqU0vT4797+OxtlvHBDXCxKJGzjq2M9h+QqVbS2S0+yJbwrbbSnkhAE2nqNvTHtQBBpEwuNHs5VSRA0K/LIhVhx3Bq7SKqooVQFUDAAGABS0AFc1qtra3/jGxtdShintRp88kcU6hkL74wxweCQpx7Bj6mulqrfabYanEsV/ZW91GpyqzxK4BxjIBHpQBx4vLqP4PvNHIzXC6cxRhIQ3lcgNu5P3Od341d8OW66Z4jubD7LpyM9jFMJdOiaJNm5gFZSxBPXD8EjPAxXTi0thIZBbxBzGItwQZ2DoufTk8VFY6Xp+mK62FjbWiuQXEESoGI4GcDmgC3RRRQBDdtKtnO0IzKI2KYGfmxx+tcRoMNnaXXhOewWJXutMke7kXAaVdkbF3Pc7z1POWPqa72qUWjaXA1w0Om2cZuQVnKQKPNBzkNxyDk9fU0AcR4xtH1LVNaaCOycWukJ5jXfLRgtI2+A/wALYB+Y91T0Nd7ZzLcWNvOm/bJGrjzPvYIzz71BdaNpd60TXem2c7QjbEZYFYoOuBkcDgflV6gAooooAK5XQLIWXjTxCnnzzs9vaSPJO+5iSZvwA4HAAFdVUawQpPJOsUazSBVeQKAzAZwCepxk4+poAkooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//9k=" alt="image"></p>
+<h3 id="卷积公式"><a href="#卷积公式" class="headerlink" title="卷积公式"></a>卷积公式</h3><p>对于任意一个连续时间信号 $ f(t) $ ， 我们都可以将其从时间上划分成无数等宽小矩形块，对某一个划分 $ t_0 \to t_0+\Delta{t_0}  $ , 其高度为 $ f(t_0) $ .要使矩形块近似为冲激信号，则需冲击信号宽度 $ \Delta{t} \to 0 (\tau \to 0)$.考虑冲激信号的时移，则 $ f(t) $ 可表示为<br>$$ f(t) = \sum_{t_0=-\infty}^{+\infty}\lim_{\Delta t \to 0} \Delta{t} \cdot f(t_0) \cdot \delta(t-t_0) $$</p>
+<p>若已知冲激响应（冲激信号经过LTI系统的零状态响应）为 $ h(t) $ , 则 $ f(t) $ 的响应 $ y(t) $为<br>$$ y(t) = \sum_{t_0=-\infty}^{+\infty}\lim_{\Delta t \to 0} \Delta{t} \cdot f(t_0) \cdot h(t-t_0) $$<br>写成积分形式，为 $$ y(t) = \int_{-\infty}^{+\infty} f(t_0) \cdot h(t-t_0) dt $$ 令 $ \tau = t_0 $,则<br>$$ y(t) = \int_{-\infty}^{+\infty} f(\tau) \cdot h(t-\tau) d\tau = f(t)*h(t) $$<br>此即卷积公式 .</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">微积分</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">信号与系统</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/02/13/%E5%8D%B7%E7%A7%AF%E7%A7%AF%E5%88%86%E5%8E%9F%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Summary of 2021" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/02/10/Summary%20of%202021/">Summary of 2021</a>
+    </h1>
+  
+
+        
+        <a href="/2022/02/10/Summary%20of%202021/" class="archive-article-date">
+  	<time datetime="2022-02-10T07:54:45.302Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>The year 2021 is of significance to me for it’s given me some of the most necessary answers to my questions which have bothered me a long time. Apart from this,I find myself deep in my mind… Now,I ‘m making every endavour to push my life back to normal.</p>
+</blockquote>
+<blockquote>
+<h3>1.Experiences</h3>
+*Experience more and know more.*
+</blockquote>
+<h4></h4>
+I don't wanna paticipate in your games,'cause I won't be in a dominant place.
+
+
+<p>More than a hundred billion people had lived in this world. Then,What’s my existence means at all? How can someone who lives thousands of years after our era tell me from the rest of so many people? That means I have to be the greatest. And how can I be the greatest? Only if I could be a pioneer in a field. Thus,spending so much time in those meaningless fights makes no sense. Did they learn something actually? </p>
+<p>But from the world itself, rivalries and fights extist objectively. </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">live</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/02/10/Summary%20of%202021/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-软基笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/14/%E8%BD%AF%E5%9F%BA%E7%AC%94%E8%AE%B0/">软基笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2021/12/14/%E8%BD%AF%E5%9F%BA%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2021-12-14T00:55:01.593Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>一、参考资料</h1>
+
+<h3>1.哈夫曼树</h3>
+
+
+<p>[1]<a target="_blank" rel="noopener" href="https://blog.csdn.net/shuangde800/article/details/7341289">shuangde800 哈夫曼树</a></p>
+<p>[2]<a target="_blank" rel="noopener" href="https://www.cnblogs.com/caoqian1314/p/11865913.html">20182323曹骞 哈夫曼树讲解</a></p>
+<h3>2.图论</h3>
+
+<p>[1]<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhouzhuo_CSUFT/article/details/81479244">计算机-周卓 计算机图论入门</a></p>
+<p>[2]<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/5224976?fromtitle=DFS&fromid=5055&fr=aladdin">百度百科 DFS</a></p>
+<h1>二、笔记</h1>
+
+<h3>1.哈夫曼树</h3>
+
+<p>一、为什么需要哈夫曼树？</p>
+<ul>
+<li>进行大量条件判断时，采用二分判断的方法效率较低，因为每层的判断语句都需要执行</li>
+<li>采用二进制编码一篇电报中的字母时，相同位数编码得到的总编码位较多</li>
+</ul>
+<p>根据使用频率的不同，可为树的结点附上权值，构建一颗带权树。</p>
+<h3>2.图论</h3>
+
+<p>一、背景</p>
+<blockquote>
+<p>数学史上的图论可以追溯到柯尼斯堡七桥问题（大约1730年代）。它提问是否可以在以下限制条件下遍历柯尼斯堡市的七座桥梁。欧拉于1736年研究并解决了此问题，他把问题归结为如“一笔画”问题。他的《柯尼斯堡七桥》的论文圆满解决了这一问题，同时开创了数学一个新分支—图论。</p>
+</blockquote>
+<ul>
+<li><p>定义邻接矩阵</p>
+<pre><code>  typedef struct graph
+  &#123;
+      int edg[N+1][N+1];
+      DataType Ver[N+1];
+  &#125;Graph;
+</code></pre>
+</li>
+<li><p>定义表结点</p>
+<pre><code>  typedef struct adjnode
+  &#123;
+      int adjv;
+      struct adjnode *next;
+  &#125;AdjNode;
+</code></pre>
+</li>
+<li><p>定义头结点</p>
+<pre><code>  typedef struct vernode
+  &#123;
+      DataType Ver;
+      AdjNode *first;
+  &#125;VerNode;
+</code></pre>
+</li>
+</ul>
+<p>二、图结点的访问</p>
+<ul>
+<li>深度优先搜索(DFS)  定义一个长度为N的访问标志数组；  尽可能向纵深方向搜索，访问后将对应结点标志位置1；  访问更深层的结点。</li>
+</ul>
+<blockquote>
+<p>C++实现</p>
+</blockquote>
+<pre><code>//定义一个结构体来表达一个NODE的结构：
+struct Node  
+&#123;
+    int self; //数据
+    node *left; //左节点
+    node *right; //右节点
+&#125;;    
+//
+const int TREE_SIZE = 9; 
+std::stack&lt;node*&gt; visited, unvisited; 
+node nodes[TREE_SIZE]; 
+node* current; 
+for( int i=0; i&lt;TREE_SIZE; i++) //初始化树 
+    &#123;    
+        nodes[i].self = i;   
+        int child = i*2+1;    
+        if( child&lt;TREE_SIZE ) //Left child       
+        nodes[i].left = &amp;nodes[child];    
+        else nodes[i].left = NULL;    
+        child++;    
+        if( child&lt;TREE_SIZE ) //Right child           
+        nodes[i].right = &amp;nodes[child];    
+        else       nodes[i].right = NULL;
+    &#125;             
+ unvisited.push(&amp;nodes[0]); //先把0放入UNVISITED stack  
+ while(!unvisited.empty()) //只有UNVISITED不空  
+ &#123;    
+     current=(unvisited.top()); //当前应该访问的    
+     unvisited.pop();      
+     if(current-&gt;right!=NULL)     
+     unvisited.push(current-&gt;right); // 把右边压入 因为右边的访问次序是在左边之后     
+     if(current-&gt;left!=NULL)     
+     unvisited.push(current-&gt;left);     
+     visited.push(current);     
+     cout&lt;&lt;current-&gt;self&lt;&lt;endl; 
+</code></pre>
+<p>- </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">C/C++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/12/14/%E8%BD%AF%E5%9F%BA%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Summary of SEP" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/10/09/Summary%20of%20SEP/">Summary of SEP</a>
+    </h1>
+  
+
+        
+        <a href="/2021/10/09/Summary%20of%20SEP/" class="archive-article-date">
+  	<time datetime="2021-10-08T16:13:17.161Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">stm32</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">PR</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">C/C++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">vscode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/10/09/Summary%20of%20SEP/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-新的学习计划及进度" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -165,7 +823,38 @@
       
         <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 
-<p>NOTHING</p>
+<blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1></blockquote>
+<p>理清一下一些思路吧：</p>
+<p>1.首先是bolg。做为一个门面及进度记录，应当把它稍微打理一下，虽谈不上臻于完美，但没有主页还是略显寒碜了些，因此还是要略微修饰一下。看了DW制作HTML的一个课程，略微了解了下CSS样式，现在刚做了个导航栏。要想做一些花样，还得学一下js。</p>
+<p>2.第二是电路。</p>
+<pre><code>1.为了了解硬件制作借了电子设计的书。
+2.可以按照视觉组计划学习数模电。
+</code></pre>
+<p>3.第三是软件使用。此项包括相当的内容：</p>
+<pre><code>1.AD：暑假的内容尚未完成，但经思考认为其意义不大，可以放弃。现在应该尝试新的PCB工程的设计制作，可选的是核心板设计等
+2.Matlab：目前无法确定其是否正确安装，如果正确安装可以开始学习。但其工具相当繁杂，学习内容过多。
+          大概应该先学习基本语法，数值分析，然后渐入专业工具箱进行电气类仿真与模拟。
+3.LaTeX：
+4.FLstudio:想学习制作音乐。
+5.SW:需要完整进行建模及打印过程。
+</code></pre>
+<p>4.第四计算机相关的学习。</p>
+<pre><code>1.可以参考视觉组计划速刷视频，了解计算机组成原理、计算机科学等。
+2.
+</code></pre>
+<blockquote>
+<h1 id="安排"><a href="#安排" class="headerlink" title="安排"></a>安排</h1></blockquote>
+<p>还是这样直观一些</p>
+<p>1.微积分探究性课题精编</p>
+<p>2.电子设计与制作技能培训</p>
+<p>3.Multisim仿真设计</p>
+<p>4.</p>
+<blockquote>
+<h1 id="NOTE"><a href="#NOTE" class="headerlink" title="NOTE"></a>NOTE</h1></blockquote>
+<p>1.在看到不了解的术语时，优先查询并了解</p>
+<p>2.整理已经学过的内容</p>
+<p>3.创建新项目完成综合训练</p>
 
       
 
@@ -947,7 +1636,7 @@ $$x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$$
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2021 even904
+    		&copy; 2022 even904
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1136,6 +1825,38 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">vscode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">live</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微积分</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">信号与系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">math</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">控制系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">matlab</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">mathematica</a>
               </li>
             
             <div class="clearfix"></div>
