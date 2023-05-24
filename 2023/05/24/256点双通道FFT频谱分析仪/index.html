@@ -6,30 +6,43 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://even904.github.io">
-  <title>文章分类 | even904的博客</title>
+  <title>STM32F103 ADC+DMA+LCD+FFT 256点双通道FFT频谱分析仪 | even904的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="电子信息工程本科在读">
-<meta property="og:type" content="website">
-<meta property="og:title" content="文章分类">
-<meta property="og:url" content="http://even904.github.io/categories/index.html">
+  <meta name="description" content="本项目为嵌入式课程设计，项目已经结束不准备再完善，如有问题请联系QQ:1764269411   开源项目地址：Github 256点双通道FFT频谱分析仪 百度网盘下载：链接 提取码：FFTA   PartA:256点双通道FFT频谱分析仪使用说明开发工具：STM32F103RCT6,HAL库,keil MDKProteus版本8.11 技术参数： 频率分辨力1Hz 频率范围0~128Hz 输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STM32F103 ADC+DMA+LCD+FFT 256点双通道FFT频谱分析仪">
+<meta property="og:url" content="http://even904.github.io/2023/05/24/256%E7%82%B9%E5%8F%8C%E9%80%9A%E9%81%93FFT%E9%A2%91%E8%B0%B1%E5%88%86%E6%9E%90%E4%BB%AA/index.html">
 <meta property="og:site_name" content="even904的博客">
-<meta property="og:description" content="电子信息工程本科在读">
+<meta property="og:description" content="本项目为嵌入式课程设计，项目已经结束不准备再完善，如有问题请联系QQ:1764269411   开源项目地址：Github 256点双通道FFT频谱分析仪 百度网盘下载：链接 提取码：FFTA   PartA:256点双通道FFT频谱分析仪使用说明开发工具：STM32F103RCT6,HAL库,keil MDKProteus版本8.11 技术参数： 频率分辨力1Hz 频率范围0~128Hz 输入">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-08-31T12:42:43.000Z">
-<meta property="article:modified_time" content="2021-08-31T12:43:30.453Z">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/3.2.1.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/3.2.2.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.1.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.2.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.3.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.4.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.5.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.6.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.7.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.8.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.9.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.10.png">
+<meta property="og:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/4.11.png">
+<meta property="article:published_time" content="2023-05-24T03:40:16.259Z">
+<meta property="article:modified_time" content="2023-05-24T05:54:21.332Z">
 <meta property="article:author" content="even904">
-<meta property="article:tag" content="学习ing...">
 <meta property="article:tag" content="STM32">
-<meta property="article:tag" content="ROBOMASTER">
-<meta property="article:tag" content="编程">
-<meta property="article:tag" content="硬件">
-<meta property="article:tag" content="diy">
+<meta property="article:tag" content="ADC">
+<meta property="article:tag" content="DMA">
+<meta property="article:tag" content="LCD">
+<meta property="article:tag" content="FFT">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://even904.github.io/2023/05/24/assets/FFT_Analyzer_assets/3.2.1.png">
   
     <link rel="alternative" href="/atom.xml" title="even904的博客" type="application/atom+xml">
   
   
-    <link rel="icon" href="/assets/img/EVEN.png">
+    <link rel="icon" href="/assets/img/ECOA1.png">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -53,7 +66,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/assets/img/my icon.png" class="js-avatar">
+			<img src="/assets/img/ECOA1.png" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/"></a></h1>
@@ -65,7 +78,7 @@
 			
 				<li><a href="/null">主页</a></li>
 	        
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+				<li><a href="/null">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -87,6 +100,8 @@
 		<nav class="header-nav">
 			<div class="social">
 				
+					<a class="github" target="_blank" href="https://github.com/even904" title="github"><i class="icon-github"></i></a>
+		        
 					<a class="bilibili" target="_blank" href="https://space.bilibili.com/349259445" title="bilibili"><i class="icon-bilibili"></i></a>
 		        
 			</div>
@@ -105,7 +120,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="/assets/img/my icon.png" class="js-avatar">
+				<img src="/assets/img/ECOA1.png" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author"></h1>
@@ -122,6 +137,8 @@
 			<nav class="header-nav">
 				<div class="social">
 					
+						<a class="github" target="_blank" href="https://github.com/even904" title="github"><i class="icon-github"></i></a>
+			        
 						<a class="bilibili" target="_blank" href="https://space.bilibili.com/349259445" title="bilibili"><i class="icon-bilibili"></i></a>
 			        
 				</div>
@@ -133,7 +150,7 @@
 				
 					<li style="width: 50%"><a href="/null">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 50%"><a href="/null">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -148,27 +165,86 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-256点双通道FFT频谱分析仪" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      文章分类
+      STM32F103 ADC+DMA+LCD+FFT 256点双通道FFT频谱分析仪
     </h1>
   
 
         
-        <a href="/categories/index.html" class="archive-article-date">
-  	<time datetime="2021-08-31T12:42:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-31</time>
+        <a href="/2023/05/24/256%E7%82%B9%E5%8F%8C%E9%80%9A%E9%81%93FFT%E9%A2%91%E8%B0%B1%E5%88%86%E6%9E%90%E4%BB%AA/" class="archive-article-date">
+  	<time datetime="2023-05-24T03:40:16.259Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <blockquote>
+<p>本项目为嵌入式课程设计，项目已经结束不准备再完善，如有问题请联系QQ:1764269411</p>
+</blockquote>
+<ul>
+<li>开源项目地址：<a target="_blank" rel="noopener" href="https://github.com/even904/FFT_Analyzer">Github 256点双通道FFT频谱分析仪</a></li>
+<li>百度网盘下载：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/12zWr7gXIjBdXjL0v2oIq5w?pwd=FFTA">链接</a> 提取码：FFTA</li>
+</ul>
+<hr>
+<h1 id="PartA-256点双通道FFT频谱分析仪使用说明"><a href="#PartA-256点双通道FFT频谱分析仪使用说明" class="headerlink" title="PartA:256点双通道FFT频谱分析仪使用说明"></a>PartA:256点双通道FFT频谱分析仪使用说明</h1><h2 id="开发工具："><a href="#开发工具：" class="headerlink" title="开发工具："></a>开发工具：</h2><p>STM32F103RCT6,HAL库,keil MDK<br>Proteus版本8.11</p>
+<h2 id="技术参数："><a href="#技术参数：" class="headerlink" title="技术参数："></a>技术参数：</h2><ul>
+<li>频率分辨力1Hz</li>
+<li>频率范围0~128Hz</li>
+<li>输入电压值0~3.3V</li>
+</ul>
+<h2 id="操作说明："><a href="#操作说明：" class="headerlink" title="操作说明："></a>操作说明：</h2><h3 id="1-仿真流程"><a href="#1-仿真流程" class="headerlink" title="1. 仿真流程"></a>1. 仿真流程</h3><ol>
+<li>开始仿真，电源灯PWR(D2)正常亮起，屏幕初始化并刷新，开始采样，可见采样点数增加。</li>
+<li>当采样点数达到256点时，清零采样数，绘制时域波形及FFT频谱。</li>
+<li>其他功能见按键说明。</li>
+</ol>
+<h3 id="2-按键说明"><a href="#2-按键说明" class="headerlink" title="2. 按键说明"></a>2. 按键说明</h3><ul>
+<li>KEY0_TEST_TOGGLE：按键测试。<strong>任意按键</strong>按下，LED-GREEN发生翻转，视为读取到有效输入。</li>
+<li>KEY1_CH0/CH1：切换通道，默认为CH0，屏幕显示该状态。CH0默认测试信号为载波100Hz，调制信号10Hz的调幅波信号；CH1默认为20Hz方波信号。通道切换后，在采集点数达到256时将刷新显示，</li>
+<li>KEY2_STOP/START：启动/停止显示刷新，默认为启动，屏幕显示该状态，停止后不会在下次采样数达到256时刷新原有波形结果。此功能将方便读取测量值。</li>
+<li>KEY3_GET_MEASUREMENTS|ON/OFF：开/关测量值显示，默认关闭。强烈建议测量时先停止刷新，然后在执行测量，当测量关闭时不会计算测量值。<strong>请注意：正常采样时务必关闭测量显示，以免影响采样时间间隔准确性！</strong></li>
+<li>KEY4_CLEAN_SCREEN：清屏函数，单次执行，可在任意时间按下。关闭测量时有较小概率出现测量未清除的情况，此时按下清屏进行刷新。</li>
+</ul>
+<h2 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h2><ul>
+<li>输入信号必须有直流偏置以便正确地分析出频谱</li>
+<li>输入信号幅值不应超过0~3.3V</li>
+<li>在整个仿真期间采样不停止，但显示可以暂停</li>
+<li>有效采样时，测量显示应该关闭，否则将影响采样时间准确度；如果持续开启，则测量结果必定不准，此时数据应当丢弃，此时应在成功关闭测量显示后等待一个完整采样周期后再读取数据。</li>
+<li>刷新过程中按KEY2停止显示刷新，不影响本次显示刷新完成</li>
+<li>时域、频域波形显示均为对最高值的归一化波形，如需获得具体值，请停止显示刷新，开启测量功能。测量列出了最高值，方便作为参照得到波形上任意点的电压值。</li>
+<li>时域测量时虽然显示不变，但仍然处于采集过程中，因此测得的<strong>测量值均为动态值</strong>。</li>
+</ul>
+<hr>
+<h1 id="PartB-系统设计说明"><a href="#PartB-系统设计说明" class="headerlink" title="PartB:系统设计说明"></a>PartB:系统设计说明</h1><h1 id="一、系统设计说明"><a href="#一、系统设计说明" class="headerlink" title="一、系统设计说明"></a>一、系统设计说明</h1><p>本系统采用STM32F103R6T6芯片，配8M外部晶振，1个电源指示灯D2，1个可编程LED灯D1，5个按钮KEY0~4，1个ILI9341显示屏。</p>
+<h1 id="二、系统功能说明"><a href="#二、系统功能说明" class="headerlink" title="二、系统功能说明"></a>二、系统功能说明</h1><p>使用ADC+DMA采集2路信号，在液晶屏上显示其时域及频域波形，获得时域最高值、最低值及平均值，频域直流分量幅值、幅值最高的交流分量的频率及幅值。可以通过按键进行显示刷新的启停、通道切换及测量显示的开关。具体操作说明参看《使用说明.pdf》。</p>
+<h1 id="三、软件设计说明"><a href="#三、软件设计说明" class="headerlink" title="三、软件设计说明"></a>三、软件设计说明</h1><h2 id="1-工程目录"><a href="#1-工程目录" class="headerlink" title="1.工程目录"></a>1.工程目录</h2><p>使用STM32CUBEMX生成MDK5工程。时钟频率72MHz，文件目录树如下：<br>-Project:Embed<br>|-Embed<br>|—Application/MDK-ARM<br>|—Application/User/Core<br>|—Drivers/STM32F1xx_HAL_Driver<br>|—Drivers/CMSIS<br><font color=#00FF00>|—bsp</font><br><font color=Blue>|——bsp_adc.c/.h<br>|——bsp_key.c/.h<br>|——bsp_led.c/.h<br>|——bsp_tim.c/.h<br>|——bsp_spi.c/.h<br>|——bsp_usart.c/.h</font><br><font color=#00FF00>|—app</font><br><font color=Blue>|——func.c/.h<br>|——test.c/.h<br>|——app_task.c/.h</font><br><font color=#00FF00>|—module</font><br><font color=Blue>|——lcd.c/.h<br>|——lcd_gui.c/.h</font><br><font color=#00FF00>|—algorithm</font><br><font color=Blue>|——cr4_fft_256_stm32.s<br>|——cr4_fft_1024_stm32.s<br>|——stm32_dsp.h<br>|——table_fft.h</font><br><font color=#FF0000>|—CMSIS<br>|——arm_cortexM3l_math.lib(DSP)</font></p>
+<p>其中，绿色/蓝色部分为自己添加的文件夹及文件，目的是分离各层级，提高代码重用性。bsp(board support pack)提供对基础硬件功能的封装与初始化，module提供外接模块的应用函数，app(application)用于应用层函数存放及执行，algorithm提供汇编层级的256/1024点FFT算法。CMSIS文件夹内为ARM为keil提供的数字信号处理库(lib)，但实际上并未使用。</p>
+<h2 id="2-FFT算法来源"><a href="#2-FFT算法来源" class="headerlink" title="2.FFT算法来源"></a>2.FFT算法来源</h2><p>第一种方法是添加独立的FFT算法。FFT使用ST为STM32提供的独立的汇编基4-FFT算法，不需要CMSIS支持，使用时只需要包含头文件stm32_dsp.h即可。该方法的好处是无论HAL库或是标准库、寄存器版本均可简单移植。移植时需注意在stm32_dsp.h中定义相关的变量类型。<br>第二种方法是使用keil为STM32提供的DSP库，该方法需要在keil中勾选CMSIS的DSP功能如下图。该方法适用于所有具备CMSIS标准内核的ARM芯片。打开方式如下：<br><img src="../assets/FFT_Analyzer_assets/3.2.1.png" alt="Alt text"><br><img src="../assets/FFT_Analyzer_assets/3.2.2.png" alt="Alt text"><br>此操作将引入一个dsp库（arm_cortexM3l_math.lib）。使用时需要包含arm_math.h这个头文件，并在魔术棒的C/C++设置内添加ARM_MATH_CM3这个宏定义。<br>第三种方法是使用HAL库生成的DSPlib，生成代码时勾选包含所有库，并且自己从HAL库生成的驱动库内添加与芯片对应的DSPlib文件。注意HAL生成时会生成core_cm3.h文件，而keil本身已经默认添加了该文件，该文件是arm_math.h的必要文件。因此需要删除其中一个，该方法与第二种方法不能同时使用。具体使用需要进一步研究。<br>因为LCD屏幕像素为320*240，因此为了更好地显示FFT结果，FFT的技术指标选择256点FFT，1Hz频率分辨力，采样速率为256Hz。<br>FFT输入数据为ADC采样得到的缓存数组，根据按键选择通道决定计算和显示哪个通道的FFT频谱。</p>
+<h2 id="3-AD采样"><a href="#3-AD采样" class="headerlink" title="3.AD采样"></a>3.AD采样</h2><p>AD采样与数据传输方式为ADC+DMA，软件触发。为了准确得到256Hz采样速率，开启了一个频率为256Hz的定时器（TIM2）。ADC时钟频率为9MHz，单次采样时长1.5个CYCLE。由于有两个通道，使用扫描模式，按规则顺序开启转换。不应选择连续转换模式以免DMA出错。DMA方式选择外设到内存，字长为32位，满足12位ADC数据传送需要。转换完成后进入回调函数提取缓存数据，结束当次采样任务，关闭DMA传输，直到手动开启下次转换。<br>回调函数中，将经DMA传输来的ADC采样数据分别存入2个通道的时域缓存数组中，此时数组均为无符号整型数据。</p>
+<h2 id="4-LCD显示"><a href="#4-LCD显示" class="headerlink" title="4.LCD显示"></a>4.LCD显示</h2><p>选择ILI9341LCD屏作为显示设备，数据传输方式为8位并口数据总线模式。采用软件控制IO反转实现并口数据传输，为提升数据传输速率，实现了位带操作，直接操作寄存器进行IO反转，并且由于不涉及硬件外设，方便修改IO口或移植。驱动程序部分及GUI为开源代码，基本能够满足需求。自己添加了一个绘制任意颜色直线的功能方便绘制频谱。</p>
+<h2 id="5-按键输入"><a href="#5-按键输入" class="headerlink" title="5.按键输入"></a>5.按键输入</h2><p>按键均为外部中断模式，使用数组存储了按键状态信息，初始化均为0，按键未被按下。当按下时，按键状态反转。实现了一个函数以读取当前按键状态，方便外部调用。</p>
+<h2 id="6-USART串口调试"><a href="#6-USART串口调试" class="headerlink" title="6.USART串口调试"></a>6.USART串口调试</h2><p>实现了一个简单的串口，重定向printf函数以便用于仿真调试。但实际仿真运行时并未启动该任务。</p>
+<h2 id="7-时域波形与频谱绘制"><a href="#7-时域波形与频谱绘制" class="headerlink" title="7.时域波形与频谱绘制"></a>7.时域波形与频谱绘制</h2><p>分别创建了一个数组，以便保存绘制的直线长度。采用宏定义限制了波形绘制起始位置与波形高度，将输入波形数据用最大值进行归一化后一一映射到直线长度数组内。因此输入波形最大值均占据了整个绘图高度，其他则不满绘图高度。另外，绘制频谱时先绘制了参考线和刻度，方便读取测量数据。波形显示位置与类型均经过多次调整。</p>
+<h2 id="8-测量函数"><a href="#8-测量函数" class="headerlink" title="8.测量函数"></a>8.测量函数</h2><p>测量任务由按键启动。当任务就绪时启动计算，为了避免浮点运算显示，均采用整数类型。ADC数据均为12位，因此电压转换系数为3300/4096。对于测量任务，循环变量与显示变量均为同一个变量，以便节省空间。显示变量为32位无符号整型，由于ADC数据为12位，因此转换时先乘以3300再除以4096并不会溢出，而按照此运算顺序是为了保证精度。测量函数有两个参数，en决定是否显示测量值，ch决定显示哪个通道的测量值。en和ch由按键状态决定。按键状态在运行时存储于内存中。</p>
+<h2 id="9-控制逻辑"><a href="#9-控制逻辑" class="headerlink" title="9.控制逻辑"></a>9.控制逻辑</h2><p>整体思路如下：在bsp内单独实现每个模块的功能，然后在app_task.c内进行调用。关于FFT计算的部分主要在func.c内进行定义。使用了ST官方提供的FFT计算代码，得到单边频谱的模值。FFT输入数组为32位256点采样数据，低16位存采样数据的实部，高16位位虚部，即应当为0，因此采样数据赋给输入数组时与了0x0000FFFF。输出数组为32位128点数组，低16位为实部，高16位为虚部，取平方和再开方得到模值，即单边频谱。<br>在不使用操作系统的前提下，为了保证各任务尽可能互不干扰，且保证实时性，采用定时器中断及模拟操作系统任务列表与句柄的模式进行任务触发与控制。因此定义了一个任务列表TaskList结构体，用枚举类型定义任务启动/停止。<br>其中，定时器2为256Hz定时器，专用于ADC采样任务的触发；定时器3为1ms定时器，由软件计时可以产生多种时间间隔供给不同任务使用。<br>任务一般为时间间隔触发，也可由条件触发。当到达相应时间间隔时，将任务句柄更新为启动模式，即任务就绪。退出中断后，当主函数内检测到任务就绪时即在主函数内执行相应任务内容。如默认显示任务，显示通道与显示刷新开启/关闭状态，时间间隔为30ms。条件触发如频谱绘制，当采集点数达到256时该任务触发，任务就绪后在主函数内执行。也有条件和时间共同触发，如获得测量数据的任务，仅当按键KEY3状态为按下时每隔30ms触发一次测量数据的计算与显示。<br>以上任务逻辑均为了分时复用嵌入式芯片的CPU功能，达到更好的实时性和准确性。</p>
+<h1 id="四、调试及运行结果"><a href="#四、调试及运行结果" class="headerlink" title="四、调试及运行结果"></a>四、调试及运行结果</h1><h2 id="1-整体电路"><a href="#1-整体电路" class="headerlink" title="1.整体电路"></a>1.整体电路</h2><p><img src="../assets/FFT_Analyzer_assets/4.1.png" alt="Alt text"><br>傅里叶分析图表用于计算两个输入信号的频谱，作为对照。两个通道的波形分别输入PA0、PA1端口。ADC_CH0为普通调幅波信号，载频100Hz，载波幅度1.5V，调制波10Hz，幅度1.5V，调制指数0.5；ADC_CH1为20Hz，2V方波信号。仿真时示波器显示时域波形。屏幕右侧按键均为主要功能按键。串口终端连接调试用串口。</p>
+<h2 id="2-初始化完成"><a href="#2-初始化完成" class="headerlink" title="2.初始化完成"></a>2.初始化完成</h2><p><img src="../assets/FFT_Analyzer_assets/4.2.png" alt="Alt text"></p>
+<h2 id="3-完成256点采样，执行时域波形及频谱绘制，通道0，显示刷新开启"><a href="#3-完成256点采样，执行时域波形及频谱绘制，通道0，显示刷新开启" class="headerlink" title="3.完成256点采样，执行时域波形及频谱绘制，通道0，显示刷新开启"></a>3.完成256点采样，执行时域波形及频谱绘制，通道0，显示刷新开启</h2><p><img src="../assets/FFT_Analyzer_assets/4.3.png" alt="Alt text"></p>
+<h2 id="4-暂停显示刷新，获得测量值"><a href="#4-暂停显示刷新，获得测量值" class="headerlink" title="4.暂停显示刷新，获得测量值"></a>4.暂停显示刷新，获得测量值</h2><p><img src="../assets/FFT_Analyzer_assets/4.4.png" alt="Alt text"></p>
+<h2 id="5-不关闭测量显示采集数据出现错误"><a href="#5-不关闭测量显示采集数据出现错误" class="headerlink" title="5.不关闭测量显示采集数据出现错误"></a>5.不关闭测量显示采集数据出现错误</h2><p><img src="../assets/FFT_Analyzer_assets/4.5.png" alt="Alt text"></p>
+<h2 id="6-采样显示通道2波形及频谱"><a href="#6-采样显示通道2波形及频谱" class="headerlink" title="6.采样显示通道2波形及频谱"></a>6.采样显示通道2波形及频谱</h2><p><img src="../assets/FFT_Analyzer_assets/4.6.png" alt="Alt text"></p>
+<h2 id="7-暂停显示刷新，显示通道2测量值"><a href="#7-暂停显示刷新，显示通道2测量值" class="headerlink" title="7.暂停显示刷新，显示通道2测量值"></a>7.暂停显示刷新，显示通道2测量值</h2><p><img src="../assets/FFT_Analyzer_assets/4.7.png" alt="Alt text"></p>
+<h2 id="8-清屏瞬间"><a href="#8-清屏瞬间" class="headerlink" title="8.清屏瞬间"></a>8.清屏瞬间</h2><p><img src="../assets/FFT_Analyzer_assets/4.8.png" alt="Alt text"></p>
+<h2 id="9-显示刷新关闭，到达256点但不刷新显示"><a href="#9-显示刷新关闭，到达256点但不刷新显示" class="headerlink" title="9.显示刷新关闭，到达256点但不刷新显示"></a>9.显示刷新关闭，到达256点但不刷新显示</h2><p><img src="../assets/FFT_Analyzer_assets/4.9.png" alt="Alt text"></p>
+<h2 id="10-再次开启显示刷新，重新采样达到256点，显示正常"><a href="#10-再次开启显示刷新，重新采样达到256点，显示正常" class="headerlink" title="10.再次开启显示刷新，重新采样达到256点，显示正常"></a>10.再次开启显示刷新，重新采样达到256点，显示正常</h2><p><img src="../assets/FFT_Analyzer_assets/4.10.png" alt="Alt text"></p>
+<h2 id="11-傅里叶工具频谱图，作为对比，可见比较准确"><a href="#11-傅里叶工具频谱图，作为对比，可见比较准确" class="headerlink" title="11.傅里叶工具频谱图，作为对比，可见比较准确"></a>11.傅里叶工具频谱图，作为对比，可见比较准确</h2><p><img src="../assets/FFT_Analyzer_assets/4.11.png" alt="Alt text"></p>
+
       
 
       
@@ -176,7 +252,61 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">STM32</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ADC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DMA</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">LCD</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">FFT</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32//" class="article-tag-list-link color1">STM32</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/ADC//" class="article-tag-list-link color4">ADC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/DMA//" class="article-tag-list-link color4">DMA</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/F103R6T6//" class="article-tag-list-link color4">F103R6T6</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/FFT//" class="article-tag-list-link color4">FFT</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -226,7 +356,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://even904.github.io/categories/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://even904.github.io/2023/05/24/256%E7%82%B9%E5%8F%8C%E9%80%9A%E9%81%93FFT%E9%A2%91%E8%B0%B1%E5%88%86%E6%9E%90%E4%BB%AA/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -238,6 +368,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2023/05/24/Research%20Report/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">沙海贝</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -288,11 +428,11 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
-		open_in_new: false,
+		open_in_new: true,
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
@@ -377,6 +517,46 @@ MathJax.Hub.Queue(function() {
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">感想</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">电力电子</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">DIY</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CV</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">方法论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">STM32</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ADC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">DMA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">FFT</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -438,7 +618,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">新的开始! &lt;br&gt; 学习交流欢迎联系QQ：1764269411 &lt;br&gt; 谢谢大家！！！</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">Reborn! &lt;br&gt; 学习交流欢迎联系QQ：1764269411 &lt;br&gt; 谢谢大家！！！</div>
   	  	
     	</section>
     
