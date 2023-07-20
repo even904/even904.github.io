@@ -152,6 +152,136 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-hexo博客配置优化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/29379.html">hexo博客配置优化</a>
+    </h1>
+  
+
+        
+        
+<a href="/posts/29379.html" class="archive-article-date">
+  	<time datetime="2023-07-20T03:15:27.673Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-20</time>
+</a>
+
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>关于配置问题暂且不作讨论，hexo官网有详尽教程，网上也有很多教程。因此仅就笔者博客配置优化中遇到的问题进行讨论。<br>hexo中文文档链接:<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">https://hexo.io/zh-cn/docs/</a></p>
+</blockquote>
+<h2 id="添加永久链接-Permalink"><a href="#添加永久链接-Permalink" class="headerlink" title="添加永久链接(Permalink)"></a>添加永久链接(Permalink)</h2><ul>
+<li><p>hexo默认生成的文章默认链接格式为日期，导致目录层次过多</p>
+</li>
+<li><p>永久链接能够帮助缩短目录层次，便于爬虫抓取，方便推广</p>
+</li>
+<li><p>存储于仓库的页面可以方便地使用相对路径引用仓库内图片等资源</p>
+</li>
+<li><p>因此添加永久链接的原则是</p>
+<ul>
+<li>使目录层次尽可能短</li>
+<li>能够唯一标识一篇文章</li>
+</ul>
+</li>
+<li><p>abbrlink插件能够利用对title的默认十进制CRC16校验得到校验码，可将其作为唯一链接标识，如本文的校验码为<code>29379</code>，请保证博客文章md标题与文章内定义标题一致。</p>
+<h4 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h4></li>
+</ul>
+<ol>
+<li>安装插件<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-abbrlink --save</span><br></pre></td></tr></table></figure></li>
+<li>在全局设置文件<code>_config.yml</code>中添加<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># URL</span><br><span class="line">## Set your site url here. For example, if you use GitHub Page, set url as &#x27;https://username.github.io/project&#x27;</span><br><span class="line">url: http://even904.github.io</span><br><span class="line">permalink: posts/:abbrlink.html #注意此处的修改 </span><br><span class="line"></span><br><span class="line">#原先为:year/:month/:day/:title/ </span><br><span class="line">#其他方式</span><br><span class="line">#1.md文章信息页自定义pid，再使用pid进行标识/posts/:pid/ </span><br><span class="line">#2.目录+标题模式:category/:title/</span><br><span class="line"></span><br><span class="line">permalink_defaults: posts/:abbrlink.html</span><br><span class="line">pretty_urls:</span><br><span class="line">  trailing_index: true # Set to false to remove trailing &#x27;index.html&#x27; from permalinks</span><br><span class="line">  trailing_html: true # Set to false to remove trailing &#x27;.html&#x27; from permalinks</span><br></pre></td></tr></table></figure></li>
+<li>生成、预览和部署</li>
+</ol>
+<h2 id="添加访问人数"><a href="#添加访问人数" class="headerlink" title="添加访问人数"></a>添加访问人数</h2><p>参考：腾讯云@試毅-思伟:<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1404868#:~:text=Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%201%201%E3%80%81%E9%85%8D%E7%BD%AE%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF%E4%B8%8D%E8%92%9C%E5%AD%90%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD%20%E5%9C%A8%20themes%2Fyilia%2F_config.yml%20%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7%20%23%20%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD%28%E4%B8%8D%E8%92%9C%E5%AD%90%29,%E5%BC%80%E5%A4%B4%E6%B7%BB%E5%8A%A0%E5%A6%82%E4%B8%8B%E4%BB%A3%E7%A0%81%20...%204%204%E3%80%81%E4%BD%9C%E8%80%85%E5%AF%84%E8%AF%AD%20Everything%20is%20ok.%20">Hexo博客添加访问量统计</a><br>笔者使用yilla主题，这里直接采用<strong>不蒜子</strong>进行统计。</p>
+<h4 id="操作步骤-1"><a href="#操作步骤-1" class="headerlink" title="操作步骤"></a>操作步骤</h4><ol>
+<li><p>在<code>themes/yilia/_config.yml</code>添加属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">busuanzi:</span><br><span class="line">    enable: true</span><br></pre></td></tr></table></figure></li>
+<li><p>在<code>themes/yilia/layout/_partial/footer.ejs</code>末尾添加如下代码,注意添加在<code>&lt;footer&gt;&lt;/footer&gt;</code>标签内</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.busuanzi &amp;&amp; theme.busuanzi.enable)&#123; %&gt;</span><br><span class="line">        &lt;!-- 不蒜子统计 --&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_site_pv&quot;&gt;</span><br><span class="line">                本站总访问量&lt;span id=&quot;busuanzi_value_site_pv&quot;&gt;&lt;/span&gt;次</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">        &lt;span class=&quot;post-meta-divider&quot;&gt;|&lt;/span&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_site_uv&quot; style=&#x27;display:none&#x27;&gt;</span><br><span class="line">                本站访客数&lt;span id=&quot;busuanzi_value_site_uv&quot;&gt;&lt;/span&gt;人</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">        &lt;script async src=&quot;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>在<code>themes/yilia/layout/_partial/post/date.ejs</code>开头添加如下代码</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.busuanzi &amp;&amp; theme.busuanzi.enable &amp;&amp; !index)&#123; %&gt;</span><br><span class="line">        &lt;!-- 不蒜子统计 --&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_page_pv&quot; style=&#x27;display:none&#x27; class=&quot;&lt;%= class_name %&gt;&quot;&gt;</span><br><span class="line">              &lt;i class=&quot;icon-smile icon&quot;&gt;&lt;/i&gt; 阅读数：&lt;span id=&quot;busuanzi_value_page_pv&quot;&gt;&lt;/span&gt;次</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：使用<code>hexo s</code>本地预览时，数值会出现问题，但部署后能够正常显示。</p>
+<h2 id="TODO-推送网络问题"><a href="#TODO-推送网络问题" class="headerlink" title="TODO 推送网络问题"></a>TODO 推送网络问题</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">yilla</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">博客</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/文章//" class="article-tag-list-link color3">文章</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/posts/29379.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-纵向与学习路线" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -164,9 +294,11 @@
   
 
         
-        <a href="/posts/2106.html" class="archive-article-date">
+        
+<a href="/posts/2106.html" class="archive-article-date">
   	<time datetime="2023-07-11T13:32:11.495Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-11</time>
 </a>
+
         
       </header>
     
@@ -278,9 +410,11 @@
   
 
         
-        <a href="/posts/56674.html" class="archive-article-date">
+        
+<a href="/posts/56674.html" class="archive-article-date">
   	<time datetime="2023-05-31T02:22:48.003Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-31</time>
 </a>
+
         
       </header>
     
@@ -477,9 +611,11 @@
   
 
         
-        <a href="/posts/48925.html" class="archive-article-date">
+        
+<a href="/posts/48925.html" class="archive-article-date">
   	<time datetime="2023-05-27T09:36:28.747Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-27</time>
 </a>
+
         
       </header>
     
@@ -576,9 +712,11 @@
   
 
         
-        <a href="/posts/13081.html" class="archive-article-date">
+        
+<a href="/posts/13081.html" class="archive-article-date">
   	<time datetime="2023-05-24T03:40:16.259Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-24</time>
 </a>
+
         
       </header>
     
@@ -754,9 +892,11 @@
   
 
         
-        <a href="/posts/13803.html" class="archive-article-date">
+        
+<a href="/posts/13803.html" class="archive-article-date">
   	<time datetime="2023-05-24T02:51:19.630Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-24</time>
 </a>
+
         
       </header>
     
@@ -910,9 +1050,11 @@
   
 
         
-        <a href="/posts/5720.html" class="archive-article-date">
+        
+<a href="/posts/5720.html" class="archive-article-date">
   	<time datetime="2023-05-24T02:17:43.404Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-24</time>
 </a>
+
         
       </header>
     
@@ -1000,7 +1142,21 @@
       	</div>
     </div>
   </div>
+  
+	<!-- 不蒜子统计 -->
+	<span id="busuanzi_container_site_pv">
+			本站总访问量<span id="busuanzi_value_site_pv"></span>次
+	</span>
+	<span class="post-meta-divider">|</span>
+	<span id="busuanzi_container_site_uv" style='display:none'>
+			本站访客数<span id="busuanzi_value_site_uv"></span>人
+	</span>
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
 </footer>
+
+
     </div>
     <script>
 	var yiliaConfig = {
@@ -1155,6 +1311,18 @@ MathJax.Hub.Queue(function() {
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">学习</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilla</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">博客</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -1216,7 +1384,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">Reborn! &lt;br&gt; 学习交流欢迎联系QQ：1764269411 &lt;br&gt; 谢谢大家！！！</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">Reborn! 学习交流欢迎联系QQ：1764269411 谢谢大家！！！</div>
   	  	
     	</section>
     
