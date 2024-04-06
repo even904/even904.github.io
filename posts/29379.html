@@ -16,7 +16,7 @@
 <meta property="og:description" content="关于配置问题暂且不作讨论，hexo官网有详尽教程，网上也有很多教程。因此仅就笔者博客配置优化中遇到的问题进行讨论。hexo中文文档链接:https:&#x2F;&#x2F;hexo.io&#x2F;zh-cn&#x2F;docs&#x2F;  添加永久链接(Permalink) hexo默认生成的文章默认链接格式为日期，导致目录层次过多  永久链接能够帮助缩短目录层次，便于爬虫抓取，方便推广  存储于仓库的页面可以方便地使用相对路径引用仓库内图">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-20T03:15:27.673Z">
-<meta property="article:modified_time" content="2023-07-20T05:00:42.843Z">
+<meta property="article:modified_time" content="2023-09-20T16:59:18.111Z">
 <meta property="article:author" content="Even">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="yilla">
@@ -212,7 +212,13 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.busuanzi &amp;&amp; theme.busuanzi.enable &amp;&amp; !index)&#123; %&gt;</span><br><span class="line">        &lt;!-- 不蒜子统计 --&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_page_pv&quot; style=&#x27;display:none&#x27; class=&quot;&lt;%= class_name %&gt;&quot;&gt;</span><br><span class="line">              &lt;i class=&quot;icon-smile icon&quot;&gt;&lt;/i&gt; 阅读数：&lt;span id=&quot;busuanzi_value_page_pv&quot;&gt;&lt;/span&gt;次</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
 
 <p>注意：使用<code>hexo s</code>本地预览时，数值会出现问题，但部署后能够正常显示。</p>
-<h2 id="TODO-推送网络问题"><a href="#TODO-推送网络问题" class="headerlink" title="TODO 推送网络问题"></a>TODO 推送网络问题</h2>
+<h2 id="添加下载链接"><a href="#添加下载链接" class="headerlink" title="添加下载链接"></a>添加下载链接</h2><p>引用页面存储库内资源不需要额外操作，仅需在markdown内使用html标签即可，举例如下</p>
+<pre><code>    &lt;a href=&quot;../assets/test.txt&quot; download=&quot;test.txt&quot;&gt;点击下载测试txt文件&lt;/a&gt;
+</code></pre>
+<p>效果如下：<br><a href="../assets/test.txt" download="test.txt">点击下载测试txt文件</a></p>
+<h2 id="推送网络问题"><a href="#推送网络问题" class="headerlink" title="推送网络问题"></a>推送网络问题</h2><p>使用<code>git config --global http.proxy http://127.0.0.1:1080</code>指定所有http连接通过本机<code>1080</code>端口转发。<br>使用<code>git config --global https.proxy https://127.0.0.1:1080</code>指定所有https连接通过本机<code>1080</code>端口转发。</p>
+<p>本机开启代理后，使用以上两个命令指定相应代理端口，解决<code>gitbash</code>内命令执行失败。</p>
+
       
 
       
@@ -352,7 +358,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%B0%B8%E4%B9%85%E9%93%BE%E6%8E%A5-Permalink"><span class="toc-number">1.</span> <span class="toc-text">添加永久链接(Permalink)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.0.1.</span> <span class="toc-text">操作步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">添加访问人数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4-1"><span class="toc-number">2.0.1.</span> <span class="toc-text">操作步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TODO-%E6%8E%A8%E9%80%81%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">TODO 推送网络问题</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%B0%B8%E4%B9%85%E9%93%BE%E6%8E%A5-Permalink"><span class="toc-number">1.</span> <span class="toc-text">添加永久链接(Permalink)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.0.1.</span> <span class="toc-text">操作步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">添加访问人数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4-1"><span class="toc-number">2.0.1.</span> <span class="toc-text">操作步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">添加下载链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">推送网络问题</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -381,7 +387,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2023 Even
+    		&copy; 2024 Even
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -584,6 +590,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">FreeRTOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CMSIS-OS2</a>
               </li>
             
             <div class="clearfix"></div>

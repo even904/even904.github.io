@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://even904.github.io">
-  <title>Tag: 博客 | Even&#39;s Blog</title>
+  <title>FreeRTOS与CMSIS-OS2学习记录 | Even&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="电子信息工程本科在读">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Even&#39;s Blog">
-<meta property="og:url" content="http://even904.github.io/tags/%E5%8D%9A%E5%AE%A2/index.html">
+  <meta name="description" content="参考链接 CMSIS-OS2文档 FreeRTOS文档  简介CMSIS-OS（Common Microcontroller Software Interface Standard - Operating System）是一种通用的嵌入式操作系统接口标准。它旨在简化微控制器软件开发，为使用Cortex-M和入门级Cortex-A处理器的开发人员提供一致且高效的接口。  接口标准：CMSIS-OS与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FreeRTOS与CMSIS-OS2学习记录">
+<meta property="og:url" content="http://even904.github.io/posts/26321.html">
 <meta property="og:site_name" content="Even&#39;s Blog">
-<meta property="og:description" content="电子信息工程本科在读">
+<meta property="og:description" content="参考链接 CMSIS-OS2文档 FreeRTOS文档  简介CMSIS-OS（Common Microcontroller Software Interface Standard - Operating System）是一种通用的嵌入式操作系统接口标准。它旨在简化微控制器软件开发，为使用Cortex-M和入门级Cortex-A处理器的开发人员提供一致且高效的接口。  接口标准：CMSIS-OS与">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-06T04:57:40.137Z">
+<meta property="article:modified_time" content="2024-04-06T05:25:27.200Z">
 <meta property="article:author" content="Even">
-<meta property="article:tag" content="学习ing...">
-<meta property="article:tag" content="STM32">
-<meta property="article:tag" content="ROBOMASTER">
-<meta property="article:tag" content="编程">
-<meta property="article:tag" content="硬件">
-<meta property="article:tag" content="DIY">
+<meta property="article:tag" content="FreeRTOS">
+<meta property="article:tag" content="CMSIS-OS2">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Even&#39;s Blog" type="application/atom+xml">
@@ -150,81 +148,244 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-FreeRTOS与CMSIS-OS2学习记录" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/posts/29379.html" class="archive-article-date">
-  	<time datetime="2023-07-20T03:15:27.673Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-07-20</time>
-</a>
-
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/posts/29379.html">hexo博客配置优化</a>
+    <h1 class="article-title" itemprop="name">
+      FreeRTOS与CMSIS-OS2学习记录
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        
+	<!-- 不蒜子统计 -->
+	<span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+<a href="/posts/26321.html" class="archive-article-date">
+  	<time datetime="2024-04-06T04:57:40.137Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-04-06</time>
+</a>
+
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.keil.com/pack/doc/CMSIS/RTOS2/html/index.html">CMSIS-OS2文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freertos.org/zh-cn-cmn-s/RTOS.html">FreeRTOS文档</a></li>
+</ul>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>CMSIS-OS（Common Microcontroller Software Interface Standard - Operating System）是一种通用的嵌入式操作系统接口标准。它旨在简化微控制器软件开发，为使用Cortex-M和入门级Cortex-A处理器的开发人员提供一致且高效的接口。</p>
+<ul>
+<li><p>接口标准：CMSIS-OS与各种芯片和软件供应商紧密合作，提供了一种通用的接口，用于与外设、实时操作系统和中间件组件进行交互。它旨在实现来自多个供应商的软件组件的互操作性。</p>
+</li>
+<li><p>目标：CMSIS-OS的目标是为嵌入式系统提供一致的编程接口，使开发人员能够轻松地在不同的RTOS系统之间移植代码。它还促进了软件模板、中间件、库和其他组件的跨RTOS系统的共享。</p>
+</li>
+<li><p>功能：CMSIS-OS定义了一组API，用于线程管理、定时器、信号量、消息队列、内存池等。这些API可在支持CMSIS-OS的不同RTOS系统之间进行移植。</p>
+</li>
+<li><p>封装：CMSIS-RTOS2 的统一功能集减少了学习工作量并简化了软件组件的共享。使用 CMSIS-RTOS2 的中间件组件与 RTOS 无关，并且更容易适应。</p>
+</li>
+<li><p>例程：CMSIS-RTOS2 的标准项目模板可以随免费提供的 CMSIS-RTOS2 实现一起提供。</p>
+</li>
+</ul>
+<hr>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h4 id="内存管理相关API"><a href="#内存管理相关API" class="headerlink" title="内存管理相关API"></a>内存管理相关API</h4><table>
+<thead>
+<tr>
+<th>API</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>osMemoryPoolNew (uint32_t block_count, uint32_t block_size, const osMemoryPoolAttr_t *attr)</td>
+<td>创建新的内存池</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Params</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>block_count</td>
+<td>内存池内包含内存块的数量</td>
+</tr>
+<tr>
+<td>block_size</td>
+<td>每个内存块的字节数</td>
+</tr>
+<tr>
+<td>attr</td>
+<td>附加参数属性，属性中可定义内存池名称</td>
+</tr>
+<tr>
+<td>return</td>
+<td>返回osMemoryPoolId_t类型的指针，指向内存池</td>
+</tr>
+</tbody></table>
+<p><strong>介绍：</strong></p>
+<ul>
+<li>函数 <code>osMemoryPoolNew</code> 创建并初始化内存池对象，并返回指向内存池对象标识符的指针，如果出现错误，则返回 <code>NULL</code> 。之后可以使用 <code>osMemoryPoolAlloc</code> 对内存块进行取用分配。</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul>
+<li>它可以在 RTOS 启动之前（调用 <code>osKernelStart</code>）安全地调用，但不能在初始化之前（调用 <code>osKernelInitialize</code>）。</li>
+<li>不可在中断服务中调用</li>
+<li>所需的内存总量至少为 <code>block_count * block_size</code>。池中的内存只能以 <code>block_size</code> 的固定部分分配/释放。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">FreeRTOS</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">yilla</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">博客</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">CMSIS-OS2</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/文章//" class="article-tag-list-link color3">文章</a>
+        			<a href="/categories/笔记//" class="article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://even904.github.io/posts/26321.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/posts/16588.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">VSCode搭建C_C++开发环境</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%9B%B8%E5%85%B3API"><span class="toc-number">3.0.1.</span> <span class="toc-text">内存管理相关API</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -261,9 +422,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
