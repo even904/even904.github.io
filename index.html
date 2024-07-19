@@ -47,7 +47,8 @@
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
     <div class="left-col" q-class="show:isShow">
       
-<div class="overlay" style="background: #4d4d4d"></div>
+<!-- <div class="overlay" style="background: #4d4d4d"></div> -->
+<div class="overlay"></div>
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
@@ -61,9 +62,11 @@
 		<nav class="header-menu">
 			<ul>
 			
-				<li><a href="/null">主页</a></li>
+				<li><a href="/index">主页</a></li>
 	        
-				<li><a href="/tags">随笔</a></li>
+				<li><a href="/individual">个人介绍</a></li>
+	        
+				<li><a href="/essay">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -119,6 +122,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -134,12 +139,14 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/null">主页</a></li>
+					<li style="width: 33.333333333333336%"><a href="/index">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/individual">个人介绍</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/essay">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -608,10 +615,8 @@
 <li><p>在<code>themes/yilia/layout/_partial/footer.ejs</code>末尾添加如下代码,注意添加在<code>&lt;footer&gt;&lt;/footer&gt;</code>标签内</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.busuanzi &amp;&amp; theme.busuanzi.enable)&#123; %&gt;</span><br><span class="line">        &lt;!-- 不蒜子统计 --&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_site_pv&quot;&gt;</span><br><span class="line">                本站总访问量&lt;span id=&quot;busuanzi_value_site_pv&quot;&gt;&lt;/span&gt;次</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">        &lt;span class=&quot;post-meta-divider&quot;&gt;|&lt;/span&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_site_uv&quot; style=&#x27;display:none&#x27;&gt;</span><br><span class="line">                本站访客数&lt;span id=&quot;busuanzi_value_site_uv&quot;&gt;&lt;/span&gt;人</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">        &lt;script async src=&quot;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure></li>
 <li><p>在<code>themes/yilia/layout/_partial/post/date.ejs</code>开头添加如下代码</p>
-</li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.busuanzi &amp;&amp; theme.busuanzi.enable &amp;&amp; !index)&#123; %&gt;</span><br><span class="line">        &lt;!-- 不蒜子统计 --&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_page_pv&quot; style=&#x27;display:none&#x27; class=&quot;&lt;%= class_name %&gt;&quot;&gt;</span><br><span class="line">              &lt;i class=&quot;icon-smile icon&quot;&gt;&lt;/i&gt; 阅读数：&lt;span id=&quot;busuanzi_value_page_pv&quot;&gt;&lt;/span&gt;次</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.busuanzi &amp;&amp; theme.busuanzi.enable &amp;&amp; !index)&#123; %&gt;</span><br><span class="line">        &lt;!-- 不蒜子统计 --&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_page_pv&quot; style=&#x27;display:none&#x27; class=&quot;&lt;%= class_name %&gt;&quot;&gt;</span><br><span class="line">              &lt;i class=&quot;icon-smile icon&quot;&gt;&lt;/i&gt; 阅读数：&lt;span id=&quot;busuanzi_value_page_pv&quot;&gt;&lt;/span&gt;次</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
-
 <p>注意：使用<code>hexo s</code>本地预览时，数值会出现问题，但部署后能够正常显示。</p>
 <h2 id="添加下载链接"><a href="#添加下载链接" class="headerlink" title="添加下载链接"></a>添加下载链接</h2><p>引用页面存储库内资源不需要额外操作，仅需在markdown内使用html标签即可，举例如下</p>
 <pre><code>    &lt;a href=&quot;../assets/test.txt&quot; download=&quot;test.txt&quot;&gt;点击下载测试txt文件&lt;/a&gt;
@@ -620,6 +625,7 @@
 <h2 id="推送网络问题"><a href="#推送网络问题" class="headerlink" title="推送网络问题"></a>推送网络问题</h2><p>使用<code>git config --global http.proxy http://127.0.0.1:1080</code>指定所有http连接通过本机<code>1080</code>端口转发。<br>使用<code>git config --global https.proxy https://127.0.0.1:1080</code>指定所有https连接通过本机<code>1080</code>端口转发。</p>
 <p>本机开启代理后，使用以上两个命令指定相应代理端口，解决<code>gitbash</code>内命令执行失败。</p>
 <h2 id="本地网络端口访问失效"><a href="#本地网络端口访问失效" class="headerlink" title="本地网络端口访问失效"></a>本地网络端口访问失效</h2><p>默认端口为<code>localhost:4000</code>，可能被占用，可以在启动时修改为其他端口<br>临时解决：使用<code>hexo server -p [port_num]</code>指定访问端口为其他端口</p>
+<h2 id="背景美化等"><a href="#背景美化等" class="headerlink" title="背景美化等"></a>背景美化等</h2><p><a target="_blank" rel="noopener" href="https://huanyaya.github.io/2020/05/03/Hexo%E6%9B%B4%E6%8D%A2yilia%E4%B8%BB%E9%A2%98%EF%BC%8C%E4%B8%AA%E6%80%A7%E5%8C%96%E8%AE%BE%E8%AE%A1%EF%BC%8C%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">参考这里</a></p>
 
       
 
@@ -1107,10 +1113,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">感想</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">电力电子</a>
               </li>
              
@@ -1124,10 +1126,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">方法论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">诗</a>
               </li>
              
               <li class="article-tag-list-item">
