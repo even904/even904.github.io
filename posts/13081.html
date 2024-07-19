@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://even904.github.io/assets/FFT_Analyzer_assets/4.10.png">
 <meta property="og:image" content="http://even904.github.io/assets/FFT_Analyzer_assets/4.11.png">
 <meta property="article:published_time" content="2023-05-24T03:40:16.259Z">
-<meta property="article:modified_time" content="2023-07-19T16:30:50.220Z">
+<meta property="article:modified_time" content="2024-07-19T02:04:58.162Z">
 <meta property="article:author" content="Even">
 <meta property="article:tag" content="STM32">
 <meta property="article:tag" content="ADC">
@@ -235,7 +235,9 @@
 <li>时域测量时虽然显示不变，但仍然处于采集过程中，因此测得的<strong>测量值均为动态值</strong>。</li>
 </ul>
 <hr>
-<h1 id="PartB-系统设计说明"><a href="#PartB-系统设计说明" class="headerlink" title="PartB:系统设计说明"></a>PartB:系统设计说明</h1><h1 id="一、系统设计说明"><a href="#一、系统设计说明" class="headerlink" title="一、系统设计说明"></a>一、系统设计说明</h1><p>本系统采用STM32F103R6T6芯片，配8M外部晶振，1个电源指示灯D2，1个可编程LED灯D1，5个按钮KEY0~4，1个ILI9341显示屏。</p>
+<h1 id="PartB-系统设计说明"><a href="#PartB-系统设计说明" class="headerlink" title="PartB:系统设计说明"></a>PartB:系统设计说明</h1><span id="more"></span>
+
+<h1 id="一、系统设计说明"><a href="#一、系统设计说明" class="headerlink" title="一、系统设计说明"></a>一、系统设计说明</h1><p>本系统采用STM32F103R6T6芯片，配8M外部晶振，1个电源指示灯D2，1个可编程LED灯D1，5个按钮KEY0~4，1个ILI9341显示屏。</p>
 <h1 id="二、系统功能说明"><a href="#二、系统功能说明" class="headerlink" title="二、系统功能说明"></a>二、系统功能说明</h1><p>使用ADC+DMA采集2路信号，在液晶屏上显示其时域及频域波形，获得时域最高值、最低值及平均值，频域直流分量幅值、幅值最高的交流分量的频率及幅值。可以通过按键进行显示刷新的启停、通道切换及测量显示的开关。具体操作说明参看《使用说明.pdf》。</p>
 <h1 id="三、软件设计说明"><a href="#三、软件设计说明" class="headerlink" title="三、软件设计说明"></a>三、软件设计说明</h1><h2 id="1-工程目录"><a href="#1-工程目录" class="headerlink" title="1.工程目录"></a>1.工程目录</h2><p>使用STM32CUBEMX生成MDK5工程。时钟频率72MHz，文件目录树如下：<br>-Project:Embed<br>|-Embed<br>|—Application/MDK-ARM<br>|—Application/User/Core<br>|—Drivers/STM32F1xx_HAL_Driver<br>|—Drivers/CMSIS<br><font color=#00FF00>|—bsp</font><br><font color=Blue>|——bsp_adc.c/.h<br>|——bsp_key.c/.h<br>|——bsp_led.c/.h<br>|——bsp_tim.c/.h<br>|——bsp_spi.c/.h<br>|——bsp_usart.c/.h</font><br><font color=#00FF00>|—app</font><br><font color=Blue>|——func.c/.h<br>|——test.c/.h<br>|——app_task.c/.h</font><br><font color=#00FF00>|—module</font><br><font color=Blue>|——lcd.c/.h<br>|——lcd_gui.c/.h</font><br><font color=#00FF00>|—algorithm</font><br><font color=Blue>|——cr4_fft_256_stm32.s<br>|——cr4_fft_1024_stm32.s<br>|——stm32_dsp.h<br>|——table_fft.h</font><br><font color=#FF0000>|—CMSIS<br>|——arm_cortexM3l_math.lib(DSP)</font></p>
 <p>其中，绿色/蓝色部分为自己添加的文件夹及文件，目的是分离各层级，提高代码重用性。bsp(board support pack)提供对基础硬件功能的封装与初始化，module提供外接模块的应用函数，app(application)用于应用层函数存放及执行，algorithm提供汇编层级的256/1024点FFT算法。CMSIS文件夹内为ARM为keil提供的数字信号处理库(lib)，但实际上并未使用。</p>

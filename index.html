@@ -199,74 +199,10 @@
 <li>变量重命名(Rename)</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/even904/Images/main/pic/Aide-2024-07-18%20.png"></p>
-<h2 id="3-Llama大模型"><a href="#3-Llama大模型" class="headerlink" title="3. Llama大模型"></a>3. Llama大模型</h2><p>Ollama支持下载并运行其提供的模型，Ollama还支持外部其他模型的导入。这里我们使用从<a target="_blank" rel="noopener" href="https://huggingface.co/models">Hugging Face</a>上找到的<code>Llama3-8B-Chinese-Chat-q8_0-v2_1.gguf</code>模型，该模型经过微调，中文生成效果更好。q8表示量化为8位，相比于q4和q6精度更高。</p>
-<blockquote>
-<p>GGUF（GPT-Generated Unified Format）是一种专为大规模机器学习模型设计的二进制文件格式。它由EleutherAI提出，旨在优化模型的存储和加载效率，尤其是对于那些在GPU或CPU上运行的大型语言模型，如GPT（Generative Pre-trained Transformer）系列模型。<br>GGUF格式的主要特点包括：<br>    紧凑的二进制编码：相比于传统的Hugging Face或PyTorch的.bin文件，GGUF使用了更紧凑的二进制编码，这有助于减小文件大小并提高加载速度。<br>    优化的数据结构：GGUF利用了优化的数据结构，可以更有效地存储和访问模型的权重和参数。<br>    内存映射（mmap）技术：GGUF支持内存映射，这意味着模型的部分数据可以直接从磁盘映射到内存，无需先读取到缓存再映射，这可以进一步提升模型的加载和运行效率。<br>    量化选项：GGUF支持不同级别的量化，允许用户根据性能和精度需求选择合适的浮点数位数，从而在模型大小、运行速度和预测准确性之间做出权衡。<br>GGUF格式的文件通常比未优化的模型文件小，加载速度更快，而且由于内存映射的使用，它们在运行时也能更有效地利用内存资源。这使得GGUF成为在有限资源的设备上部署大型语言模型的一个理想选择。例如，通过使用如llama.cpp或Ollama这样的工具，用户可以在个人电脑上运行原本需要高性能服务器才能运行的模型。</p>
-</blockquote>
-<h1 id="三、配置过程"><a href="#三、配置过程" class="headerlink" title="三、配置过程"></a>三、配置过程</h1><p>按照环境配置的基本思路，我们分为以下几个步骤。</p>
-<h2 id="1-下载安装Ollama"><a href="#1-下载安装Ollama" class="headerlink" title="1. 下载安装Ollama"></a>1. 下载安装Ollama</h2><table>
-<thead>
-<tr>
-<th align="center"><img src="https://raw.githubusercontent.com/even904/Images/main/pic/Ollama-2024-07-18.png"></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><em><a target="_blank" rel="noopener" href="https://ollama.com/">Ollama</a></em></td>
-</tr>
-</tbody></table>
-<p>环境要求Windows10+，下载.exe文件并默认安装在C盘。Ollama是命令行工具，因此需要将其.exe所在路径添加到系统路径的环境变量中，以便在PowerShell调用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    目录: C:\Users\用户名\AppData\Local\Programs\Ollama</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                 LastWriteTime         Length Name</span><br><span class="line">----                 -------------         ------ ----</span><br><span class="line">d-----         2024/7/17     17:31                cuda</span><br><span class="line">d-----         2024/7/17     17:31                ollama_runners</span><br><span class="line">d-----         2024/7/17     17:32                rocm</span><br><span class="line">-a----         2024/7/13     22:58           7502 app.ico</span><br><span class="line">-a----         2024/7/13     23:05        6116288 ollama app.exe</span><br><span class="line">-a----         2024/7/13     23:05       26291648 ollama.exe</span><br><span class="line">-a----         2024/7/13     23:05          11821 ollama_welcome.ps1</span><br><span class="line">-a----         2024/7/17     17:32         200769 unins000.dat</span><br><span class="line">-a----         2024/7/17     17:31        3046848 unins000.exe</span><br><span class="line">-a----         2024/7/17     17:32          24143 unins000.msg</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-测试Ollama"><a href="#2-测试Ollama" class="headerlink" title="2. 测试Ollama"></a>2. 测试Ollama</h2><p>Windows PowerShell（或cmd）中键入<code>ollama -v</code>，如果显示如下类似文字即成功。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32&gt;ollama -v</span><br><span class="line">ollama version is 0.2.5</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-下载模型文件"><a href="#3-下载模型文件" class="headerlink" title="3. 下载模型文件"></a>3. 下载模型文件</h2><p>从<a target="_blank" rel="noopener" href="https://huggingface.co/models">Hugging Face</a>上找到适合的GGUF格式模型文件，下载到本地。不需要特意下载到与Ollama相同的根目录下。这里我们创建一个文件夹用来存放模型及其配置文件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">F:\Llama3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                 LastWriteTime         Length Name</span><br><span class="line">----                 -------------         ------ ----</span><br><span class="line">-a----         2024/7/18     10:16     8541283840 Llama3-8B-Chinese-Chat-q8_0-v2_1.gguf</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-模型配置与导入"><a href="#4-模型配置与导入" class="headerlink" title="4. 模型配置与导入"></a>4. 模型配置与导入</h2><p>这部分可以参考廖雪峰的教程：<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/article/1610536319975459">本地快速安装运行史上最强开源LLaMa3大模型</a></p>
-<p>创建一个模型配置文件<code>config.txt</code>，其实其名字并不重要，内容如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM &quot;F:\Llama3\Llama3-8B-Chinese-Chat-q8_0-v2_1.gguf&quot;</span><br><span class="line"></span><br><span class="line">TEMPLATE &quot;&quot;&quot;&#123;&#123;- if .System &#125;&#125;</span><br><span class="line">&lt;|im_start|&gt;system &#123;&#123; .System &#125;&#125;&lt;|im_end|&gt;</span><br><span class="line">&#123;&#123;- end &#125;&#125;</span><br><span class="line">&lt;|im_start|&gt;user</span><br><span class="line">&#123;&#123; .Prompt &#125;&#125;&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;assistant</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">SYSTEM &quot;&quot;&quot;&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">PARAMETER stop &lt;|im_start|&gt;</span><br><span class="line">PARAMETER stop &lt;|im_end|&gt;</span><br></pre></td></tr></table></figure>
-<p>其中模型配置文件中FROM后的参数为模型文件的绝对路径。模型配置文件其他代码来源于网络，尚未仔细研究其功能。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">F:\Llama3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                 LastWriteTime         Length Name</span><br><span class="line">----                 -------------         ------ ----</span><br><span class="line">-a----         2024/7/18     10:33            289 config.txt</span><br><span class="line">-a----         2024/7/18     10:16     8541283840 Llama3-8B-Chinese-Chat-q8_0-v2_1.gguf</span><br></pre></td></tr></table></figure>
-
-<p>使用以下命令导入模型，其中<code>llama3-cn</code>为名称，可修改为其他名称。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama create llama3-cn -f ./config.txt</span><br></pre></td></tr></table></figure>
-<p>导入需要2~5分钟时间。导入后使用<code>ollama list</code>可查看模型是否成功导入。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PS F:\Llama3&gt; ollama list</span><br><span class="line">NAME                    ID              SIZE    MODIFIED</span><br><span class="line">llama3-cn:latest        9a86640ca0e8    8.5 GB  11 hours ago</span><br></pre></td></tr></table></figure>
-<p>既然有<code>list</code>命令，意味着我们可以导入多个模型方便从<code>ollama</code>调用。</p>
-<h2 id="5-测试命令行运行"><a href="#5-测试命令行运行" class="headerlink" title="5. 测试命令行运行"></a>5. 测试命令行运行</h2><p>导入成功后可以输入命令<code>ollama run llama3-cn</code>测试运行。需要等待模型加载完成。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PS F:\Llama3&gt; ollama run llama3-cn</span><br><span class="line">&gt;&gt;&gt; 你好</span><br><span class="line">好的，我在这里帮助您。请问有什么可以帮您的？</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-VSCode配置"><a href="#6-VSCode配置" class="headerlink" title="6. VSCode配置"></a>6. VSCode配置</h2><p>确保已经下载了aide拓展。然后可以在<code>settings.json</code>文件中添加如下配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;   </span><br><span class="line">    //...</span><br><span class="line">    &quot;aide.openaiBaseUrl&quot;: &quot;http://localhost:11434/v1/&quot;,</span><br><span class="line">    &quot;aide.openaiKey&quot;: &quot;ollama&quot;,</span><br><span class="line">    &quot;aide.openaiModel&quot;: &quot;llama3-cn&quot;</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里就配置好本地模型的访问端口了。之后aide拓展即可调用本地模型，完成对应的功能。</p>
-<h2 id="7-VSCode测试"><a href="#7-VSCode测试" class="headerlink" title="7. VSCode测试"></a>7. VSCode测试</h2><p>配置完，可以右键<br><img src="https://raw.githubusercontent.com/even904/Images/main/pic/Aide-2024-07-18.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    printf(&quot;Hello, World!\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>选择代码段，执行<code>Code Viewer Helper</code>，运行结果如下：</p>
-<blockquote>
-<h4 id="Include-standard-input-output-functions"><a href="#Include-standard-input-output-functions" class="headerlink" title="Include standard input/output functions"></a>Include standard input/output functions</h4></blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Use the printf function to print &quot;Hello, World!&quot; followed by a newline.</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello, World!\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// The return statement with a value of 0 indicates successful execution of the program.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>执行<code>Code Convert</code>，转换语言为python，运行结果如下：</p>
-<blockquote>
-<p>   To assist you, I will provide Python code that is functionally equivalent to the C code. Please note that this translation does not include third-party API or dependency names, as specified.<br>    Here is the translated code:</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Python 3.x</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, World!&quot;</span>, file=sys.stdout)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    sys.exit(main())</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Confidence: 95% |<br>|<im_end>|<br>  Please note that this translation does not include third-party API or dependency names, as specified.<br>    Here is the translated code:</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Python 3.x</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello, World!&quot;</span>, file=sys.stdout)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    sys.exit(main())</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Confidence: 95% |</p>
-</blockquote>
-<p>并不是特别完美，可能还需要对提示词进行调整。不过难得的是在本地资源及其有限的情况下，还能保持一定的可用性。</p>
-<h1 id="四、常见问题"><a href="#四、常见问题" class="headerlink" title="四、常见问题"></a>四、常见问题</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error: llama runner process has terminated: exit status 0xc0000409 error loading model: unable to allocate backend buffer</span><br></pre></td></tr></table></figure>
-<p>如果你遇到这种问题，说明内存不足8GB（取决于你实际使用的设备和模型），无法加载模型。请使用任务管理器查看相应硬件性能（包括内存、GPU内存/GPU共享内存等）</p>
-
+<h2 id="3-Llama大模型"><a href="#3-Llama大模型" class="headerlink" title="3. Llama大模型"></a>3. Llama大模型</h2>
+        
+          <a class="article-more-a" href="/posts/4832.html#more">more >></a>
+        
       
 
       
@@ -418,169 +354,9 @@
 <li>不可在中断服务中调用</li>
 <li>所需的内存总量至少为 <code>block_count * block_size</code>。池中的内存只能以 <code>block_size</code> 的固定部分分配/释放。</li>
 </ul>
-<hr>
-<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><h4 id="消息队列相关API"><a href="#消息队列相关API" class="headerlink" title="消息队列相关API"></a>消息队列相关API</h4><h5 id="osMessageQueueNew"><a href="#osMessageQueueNew" class="headerlink" title="osMessageQueueNew"></a>osMessageQueueNew</h5><table>
-<thead>
-<tr>
-<th>API</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>osMessageQueueId_t osMessageQueueNew (uint32_t msg_count, uint32_t msg_size, const osMessageQueueAttr_t *attr);</td>
-<td>创建新的消息队列</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Params</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>msg_count</td>
-<td>队列中最大消息数</td>
-</tr>
-<tr>
-<td>msg_size</td>
-<td>每个消息最大字节数，按4的倍数取整以满足32位字节对齐</td>
-</tr>
-<tr>
-<td>return</td>
-<td>返回osMessageQueueId_t类型指针，指向消息队列控制块</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Attrs</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>name</td>
-<td>消息队列名称</td>
-</tr>
-<tr>
-<td>attr_bits</td>
-<td>保留，默认为0</td>
-</tr>
-<tr>
-<td>cb_mem</td>
-<td>内存控制块指针，使用NULL自动分配</td>
-</tr>
-<tr>
-<td>cb_size</td>
-<td>内存控制块大小</td>
-</tr>
-<tr>
-<td>mq_mem</td>
-<td>数据存储区指针，使用NULL自动分配</td>
-</tr>
-<tr>
-<td>mq_size</td>
-<td>数据存储区字节数，最小为msg_count * msg_size</td>
-</tr>
-</tbody></table>
-<h5 id="osMessageQueuePut"><a href="#osMessageQueuePut" class="headerlink" title="osMessageQueuePut"></a>osMessageQueuePut</h5><table>
-<thead>
-<tr>
-<th>API</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>osStatus_t osMessageQueuePut (osMessageQueueId_t mq_id, const void *msg_ptr, uint8_t msg_prio, uint32_t timeout)</td>
-<td>创建新的消息队列</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Params</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>mq_id</td>
-<td>消息队列控制块</td>
-</tr>
-<tr>
-<td>msg_ptr</td>
-<td>指向消息缓冲区的指针</td>
-</tr>
-<tr>
-<td>msg_prio</td>
-<td>指向消息优先级的指针/NULL</td>
-</tr>
-<tr>
-<td>timeout</td>
-<td>超时时间</td>
-</tr>
-</tbody></table>
-<h5 id="osMessageQueueGet"><a href="#osMessageQueueGet" class="headerlink" title="osMessageQueueGet"></a>osMessageQueueGet</h5><table>
-<thead>
-<tr>
-<th>API</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>osStatus_t osMessageQueueGet (osMessageQueueId_t mq_id, void *msg_ptr, uint8_t *msg_prio, uint32_t timeout)</td>
-<td>从消息队列中获取1个消息，如果队列为空，则等待至超时</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Params</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>mq_id</td>
-<td>消息队列控制块</td>
-</tr>
-<tr>
-<td>msg_ptr</td>
-<td>指向消息缓冲区的指针</td>
-</tr>
-<tr>
-<td>msg_prio</td>
-<td>指向消息优先级的指针/NULL</td>
-</tr>
-<tr>
-<td>timeout</td>
-<td>超时时间</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Params</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>osOK</td>
-<td>已从队列中取得消息</td>
-</tr>
-<tr>
-<td>osErrorTimeout</td>
-<td>给定时间内未能取得消息</td>
-</tr>
-<tr>
-<td>osErrorResource</td>
-<td>队列中没有消息</td>
-</tr>
-<tr>
-<td>osErrorParameter</td>
-<td>mq_id为空指针或无效/中断中指定了非零超时</td>
-</tr>
-</tbody></table>
-<p><img src="https://raw.githubusercontent.com/even904/Images/main/pic/osMessageQ-example1.png"></p>
-
+        
+          <a class="article-more-a" href="/posts/26321.html#more">more >></a>
+        
       
 
       
@@ -711,48 +487,10 @@
 <li>VSCode是跨平台的，在不同操作系统都可以保持类似的开发习惯</li>
 <li>VSCode支持必要的代码托管平台Git，能够满足企业开发需求</li>
 </ul>
-<h2 id="3-2-了解程序如何运行"><a href="#3-2-了解程序如何运行" class="headerlink" title="3.2 了解程序如何运行"></a>3.2 了解程序如何运行</h2><h3 id="3-2-1-从文本到可以运行的指令"><a href="#3-2-1-从文本到可以运行的指令" class="headerlink" title="3.2.1 从文本到可以运行的指令"></a>3.2.1 从文本到可以运行的指令</h3><p>计算机发展到现在，让程序在计算机上运行是非常复杂的过程。在IDE中可以快速地编写和运行简单程序，这是因为现代IDE和操作系统大大简化了复杂的构建步骤。笔者并不是计算机专业，因此没有深入学习过相关课程，只能大概地解释一些步骤。<br>我们以目标为导向，由必要的知识可知，CPU只能读取和执行机器指令，从而实现简单的加减乘除、比较跳转等，而机器指令是以0或1的形式存储在计算机的某些存储器中的。一般来说，CPU有自加的一个程序计数器，存储了下一条程序指令的地址，当时钟信号到来时，CPU对程序代码进行取址、译码和执行。我们最后需要输出的程序是一串01表示的文本，称为可执行文件。这种用0和1表示的，可以直接被CPU读取并执行的语言称为<strong>机器语言</strong>。<br>早期程序员直接写0和1来编写程序。开始是在纸带上打孔，后来使用紫外光照射的方式在只读存储器ROM上控制不同二极管的通断，以它们的状态表示01，从而记录程序代码，称为“烧录”。<br>但是机器语言并不方便人类阅读，程序员编写代码时也难免因看花眼而写错，因此人们创造了<strong>汇编语言</strong>，用英文文字和符号帮助记忆机器语言。汇编指令常常与一条或多条机器指令直接对应。这便需要一种程序将汇编语言翻译成机器语言，即<em>汇编器（Assembler）</em>。<br>在以前，一个机器通常只能以循环方式运行一个可执行文件，因此一个文件会写得非常复杂。我们需要将这些文件的前体汇编文件进行拆分，汇编出多个可执行文件。但如何处理相应的包含与跳转呢？我们通过<em>链接器（linker）</em>来实现将多个可执行文件合并成一个文件，同时处理好相应的包含与跳转关系。<br>人们发现汇编语言与硬件相关性还是很强，无法在不同硬件平台上重用代码，这就影响了开发效率。为此，人们需要更高级的语言，它实现相同功能的代码文本相同，但能够被翻译成不同的汇编语言。<strong>高级语言C语言</strong>便应运而生。CPU与硬件都是不同的，因此所需的可执行文件取决于硬件平台。而C语言则提供了高层次抽象的模型来构造可执行文件。也就是说，编译出的可执行文件具体内容是不同的，但要注意C语言的设计思想是类似的，甚至每一段代码应该存储在哪也是规定好的，即C语言的内存模型是类似的。</p>
-<p><img src="../assets/VSCode%E6%90%AD%E5%BB%BAC_C++%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image.png" alt="alt text"><br><em>C语言编译为不同硬件平台机器码</em></p>
-<p>将C语言转换成汇编语言的过程称为编译，而这项工作由<em>编译器（Compiler）</em>完成。编译过程包括语法分析、词法分析、语义分析和编译优化等，多个C语言文件最后生成了多个汇编文件。</p>
-<p>在编译之前，需要进行展开宏定义、删除注释、去除多余空格、接收编译参数等的工作，这个过程称为预处理。</p>
-<p>随着通用计算机的发展，现在，我们可以在自己的计算机平台上编写一些程序的==文本文件==，再通过<strong>预处理-&gt;编译-&gt;汇编-&gt;链接</strong>的流程，生成==可执行文件==并在当前平台运行。产生不同平台的可执行文件的过程称为<strong>交叉编译</strong>。一般的应用程序可执行文件存储在硬盘中，运行时由操作系统帮助加载到内存中运行。操作系统本质上也是一组程序，只不过它们的构建方式更加复杂，直接驱动硬件工作，并且为用户封装和提供了硬件调用接口，同时负责管理计算机的任务和资源。它们一般被放在硬盘中，在计算机启动时由一组引导程序加载到内存中，在启动后就可以使用相应的系统了。</p>
-<p><img src="../assets/VSCode%E6%90%AD%E5%BB%BAC_C++%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/image-1.png" alt="alt text"><br><em>操作系统层级简图</em></p>
-<h3 id="3-2-2-工具链"><a href="#3-2-2-工具链" class="headerlink" title="3.2.2 工具链"></a>3.2.2 工具链</h3><p>我们以上从文本文件到生成最终可执行文件的过程中，对文件的一系列操作都需要相应的工具来完成。这些工具集合起来就是工具链。对于常用的芯片和计算机硬件平台，专攻此业的程序员已经为我们开发了这些工具，能够完成一系列工作并最终生成可执行文件，并且还能进行代码的调试。GNU计划中包含的GCC工具链是其中的典型代表。另外还有LLVM工具链等。<br>这些工具链通常是配套的，即包含编译器、链接器、调试器一整套工具。工具链具体的实现则取决于硬件平台，即生成的可执行文件运行的硬件平台。如ARM GNU工具链包含的编译器arm-gcc-none-eabi-gcc.exe、链接器arm-gcc-none-eabi-ld.exe、调试器arm-gcc-none-eabi-gdb.exe，此工具链用于编译和调试ARM架构的裸机系统。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/133779123">交叉编译工具链的命名规范简介</a><br>而较新的LLVM工具链则趋向于模块化，其编译器有众多类型，比较知名的有Clang，用于Mac及iOS的开发。<br>如果要在某个崭新出厂的新架构芯片上运行代码，那么就不能使用现成的工具链，而是需要开发新的对应的工具链了，当然有些工具链的架构是方便迁移的。<br>通常，Windows环境下不会预装这些工具链，需要自行到官网进行下载。常见的Linux发行版则会预装GCC工具链，可以<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/110548120">通过编译源码的方式更新</a>。</p>
-<p>我们使用GCC工具链，Linux原生支持这个工具链；而Windows有这个工具链的修改版MinGW-w64可以编译32位和64位应用程序，可以进行Windows的系统调用，因此可以开发Windows应用程序。<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/463666011">这些工具的命名及关系</a>较为复杂，可以说很难<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36525177/article/details/115279468">搞清这一坨Twist</a>。但简单来说，GCC应用广泛。</p>
-<h2 id="3-3-VSCode界面"><a href="#3-3-VSCode界面" class="headerlink" title="3.3 VSCode界面"></a>3.3 VSCode界面</h2><p>VSCode界面大概可以分为几个部分：上方菜单，左侧工具栏，右侧编辑器视图区，以及下方集成终端。</p>
-<h1 id="4-准备工作"><a href="#4-准备工作" class="headerlink" title="4 准备工作"></a>4 准备工作</h1><h2 id="4-1-下载安装VSCode"><a href="#4-1-下载安装VSCode" class="headerlink" title="4.1 下载安装VSCode"></a>4.1 下载安装VSCode</h2><p>请根据自己计算机平台的架构和操作系统，在<a target="_blank" rel="noopener" href="https://code.visualstudio.com/Download">官网</a>选择合适的VSCode版本进行下载，安装过程与普通应用程序并无二致，网络上可以轻易搜索到相关教程。</p>
-<h2 id="4-2-下载安装工具链"><a href="#4-2-下载安装工具链" class="headerlink" title="4.2 下载安装工具链"></a>4.2 下载安装工具链</h2><p>Windows下：<br><a target="_blank" rel="noopener" href="https://www.msys2.org/#installation">官网下载MSYS2</a><br>MSYS2具有多种完整的Windows应用程序编译工具链，我们需要其中的mingw64来生成一些windows64程序。</p>
-<p><s>Linux(Ubuntu 22.04.1)下：<br>我们使用自带的GCC编译生成linux下的应用程序。常见的Linux发行版自带GCC工具链，可以<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/110548120">通过编译源码的方式更新</a>。</s></p>
-<h1 id="5-配置步骤"><a href="#5-配置步骤" class="headerlink" title="5 配置步骤"></a>5 配置步骤</h1><h2 id="5-0-熟悉VSCode界面"><a href="#5-0-熟悉VSCode界面" class="headerlink" title="5.0 熟悉VSCode界面"></a>5.0 熟悉VSCode界面</h2><p>根据需求在VSCode的扩展市场搜索Chinese(Simplified)扩展并安装，重启后可以发现界面变中文。</p>
-<p>按快捷键<code>ctrl+shift+` </code>打开一个终端，终端默认与windows的shell相连接，终端区右上角显示powershell。shell是操作系统提供的与内核进行交互的应用程序。此时终端框中PS的目录显示为当前工作区目录。可以输入命令<code>gcc -v</code>检查编译器是否安装完成。<br><img src="../assets/VSCode%E6%90%AD%E5%BB%BAC_C++%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/gccVersion.png" alt="Alt text"><br>*成功界面*<br>要检查C++编译器，请输入<code>g++ -v</code>（查看详细信息）或<code>g++ --version</code>（仅查看版本号）</p>
-<h2 id="5-1-创建并打开文件夹、新建文件"><a href="#5-1-创建并打开文件夹、新建文件" class="headerlink" title="5.1 创建并打开文件夹、新建文件"></a>5.1 创建并打开文件夹、新建文件</h2><p>文件夹=目录。在不包含中文路径的目录中创建一个文件夹，然后将其在VSCode中打开。可使用资源管理器或文件-&gt;打开文件夹。该文件夹作为<strong>工作区目录</strong>，我选择的目录的绝对路径是<code>C:\Users\Even\Desktop\note\CTest</code><br>打开后VSCode会在其中生成隐藏文件夹<code>.vscode</code>用于保存相关配置信息，当前为空。<br>在文件夹内新建一个<code>.c</code>文件，如<code>ctt.c</code>，写一点代码内容：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时可能会产生报错提示，因为VSCode编辑器并不知道包含<code>printf</code>函数的<code>&lt;stdio.h&gt;</code>的库的路径在哪。此时我们也没有代码补全等功能。</p>
-<h2 id="5-2-安装C-C-扩展"><a href="#5-2-安装C-C-扩展" class="headerlink" title="5.2 安装C/C++扩展"></a>5.2 安装C/C++扩展</h2><h3 id="5-2-1-扩展简介与安装"><a href="#5-2-1-扩展简介与安装" class="headerlink" title="5.2.1 扩展简介与安装"></a>5.2.1 扩展简介与安装</h3><p>C/C++扩展是微软开发和维护的C/C++插件，提供了代码补全、代码格式化、代码导航（跳转）、代码片段、符号搜索等多种功能，能大大提高代码编写效率。<img src="../assets/VSCode%E6%90%AD%E5%BB%BAC_C++%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/C_CPP%E6%89%A9%E5%B1%95.png" alt="C/C++扩展图标"><br>在VSCode左侧工具栏扩展市场搜索C/C++扩展并安装即可。</p>
-<h3 id="5-2-2-扩展特性介绍"><a href="#5-2-2-扩展特性介绍" class="headerlink" title="5.2.2 扩展特性介绍"></a>5.2.2 扩展特性介绍</h3><p>VSCode多数插件会将设置项存储在settings.json文件中，但C/C++扩展通过c_cpp_properties.json文件来配置编译器、头文件路径、C++标准等设置项。</p>
-<h2 id="5-3-配置扩展与任务"><a href="#5-3-配置扩展与任务" class="headerlink" title="5.3 配置扩展与任务"></a>5.3 配置扩展与任务</h2><p>VSCode中常使用JSON文件管理各种配置信息、设置任务等。</p>
-<h3 id="5-3-1-创建编译任务"><a href="#5-3-1-创建编译任务" class="headerlink" title="5.3.1 创建编译任务"></a>5.3.1 创建编译任务</h3><p>任务是VSCode的一类机制，可以将需要多次在命令行（shell/bash）中敲打的命令、命令选项及参数放在任务文件中，然后一键完成操作。<br>我们需要先创建一个编译任务。<br>在工作区中，按<code>ctrl+shift+P</code>打开命令面板，输入任务，选择任务：配置任务–&gt;C/C++:gcc.exe生成活动文件，</p>
-<p><code>.vscode</code>文件夹内生成<code>tasks.json</code>文件，选择添加设置项，可得</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;version&quot;</span>: <span class="string">&quot;2.0.0&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;tasks&quot;</span>: [</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">&quot;type&quot;</span>: <span class="string">&quot;cppbuild&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;label&quot;</span>: <span class="string">&quot;C/C++: gcc.exe 生成活动文件&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;command&quot;</span>: <span class="string">&quot;D:\\Software\\msys64\\mingw64\\bin\\gcc.exe&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">				<span class="string">&quot;-fdiagnostics-color=always&quot;</span>,</span><br><span class="line">				<span class="string">&quot;-g&quot;</span>,</span><br><span class="line">				<span class="string">&quot;$&#123;file&#125;&quot;</span>,</span><br><span class="line">				<span class="string">&quot;-o&quot;</span>,</span><br><span class="line">				<span class="string">&quot;$&#123;fileDirname&#125;\\$&#123;fileBasenameNoExtension&#125;.exe&quot;</span></span><br><span class="line">			],</span><br><span class="line">			<span class="attr">&quot;options&quot;</span>: &#123;</span><br><span class="line">				<span class="attr">&quot;cwd&quot;</span>: <span class="string">&quot;$&#123;fileDirname&#125;&quot;</span></span><br><span class="line">			&#125;,</span><br><span class="line">			<span class="attr">&quot;problemMatcher&quot;</span>: [</span><br><span class="line">				<span class="string">&quot;$gcc&quot;</span></span><br><span class="line">			],</span><br><span class="line">			<span class="attr">&quot;group&quot;</span>: <span class="string">&quot;build&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;detail&quot;</span>: <span class="string">&quot;编译器: D:\\Software\\msys64\\mingw64\\bin\\gcc.exe&quot;</span></span><br><span class="line">		&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>鼠标悬浮在属性选项上可查看属性详细信息。<br><code>type</code>默认为<code>cppbuild</code>，<code>label</code>为该任务在命令面板上的标签，<code>command</code>是编译器路径，请选择msys2软件安装目录下<code>mingw64--&gt;bin--&gt;gcc.exe</code>。<br><code>gcc.exe</code>会自动搜索系统环境变量、安装目录等地的C标准库函数以供编译使用。该编译器可编译出64位windows应用程序。<br>其他均为默认，若想修改<code>.exe</code>文件输出目录，请修改<code>args</code>的<code>-o</code>参数后面的路径。也就是说，在命令行内也可执行类似<code>gcc -g ctt.c -o ctt.exe</code>的命令来编译生成可执行文件，只不过我们利用任务脚本自动化了这一过程。此处的<code>args</code>即为传给编译器程序<code>gcc.exe</code>的命令参数列表。</p>
-<p>请注意VSCode的目录格式中，<code>\</code>方向和数量与Windows文件资源管理器不同。</p>
-<p>配置保存完成，编辑器打开<code>ctt.c</code>，按右上小三角运行C/C++文件，可以发现在工作区生成了<code>ctt.exe</code>文件。请注意终端输出的信息。</p>
-<h3 id="5-3-2-创建调试任务"><a href="#5-3-2-创建调试任务" class="headerlink" title="5.3.2 创建调试任务"></a>5.3.2 创建调试任务</h3><p>调试采用<code>gdb.exe</code>调试器。按<code>ctrl+shift+P</code>打开命令面板，输入C/C++:添加调试配置。发现<code>.vscode</code>内生成了<code>launch.json</code>文件。选择添加配置–&gt;(gdb)启动，得到如下内容：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 使用 IntelliSense 了解相关属性。 </span></span><br><span class="line">    <span class="comment">// 悬停以查看现有属性的描述。</span></span><br><span class="line">    <span class="comment">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span>: [</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;(gdb) 启动&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;cppdbg&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;request&quot;</span>: <span class="string">&quot;launch&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;program&quot;</span>: <span class="string">&quot;$&#123;workspaceRoot&#125;\\ctt.exe&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;args&quot;</span>: [],</span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span>: <span class="string">&quot;$&#123;workspaceRoot&#125;&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;environment&quot;</span>: [],</span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span>: <span class="string">&quot;gdb&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span>: <span class="string">&quot;D:\\Software\\msys64\\mingw64\\bin\\gdb.exe&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">&quot;description&quot;</span>: <span class="string">&quot;为 gdb 启用整齐打印&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;text&quot;</span>: <span class="string">&quot;-enable-pretty-printing&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span>: <span class="literal">true</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">&quot;description&quot;</span>: <span class="string">&quot;将反汇编风格设置为 Intel&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;text&quot;</span>: <span class="string">&quot;-gdb-set disassembly-flavor intel&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span>: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>program</code>指定需要调试的可执行文件完整路径,<code>cwd</code>为目标的工作目录，通常包含了源文件<code>.c</code>文件和<code>.h </code>文件。<code>miDebuggerPath</code>指定了调试器路径，对于windows64位程序，可以采用msys2安装目录中<code>mingw64</code>-&gt;<code>bin</code>-&gt;<code>gdb.exe</code>进行调试。<br>gdb通过创建tcp Socket连接到应用程序，可以通过这种方式交互调试信息。可以在终端内使用<code>gdb ctt.exe</code>直接调试<code>.exe</code>文件，但不够方便。这也是为什么在VSCode中配置工具链的原因。</p>
-<p>路径等属性配置完成后，可以进入左侧工具栏中的虫子三角形菜单进行debug，可在<code>.c</code>文件行号左端单击添加断点（红色）。打断点后再调试，运行到断点暂停时可以查看变量及堆栈等。同时请注意终端输出的信息。</p>
-<h3 id="5-3-3-为C-C-扩展配置文件"><a href="#5-3-3-为C-C-扩展配置文件" class="headerlink" title="5.3.3 为C/C++扩展配置文件"></a>5.3.3 为C/C++扩展配置文件</h3><p>在工作区中，按<code>ctrl+shift+P</code>打开命令面板，输入C/C++编辑配置，找到选项并确定，会在<code>.vscode</code>中生成一个<code>c_cpp_properties.json</code>文件，内容与注释如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Win64&quot;</span>, <span class="comment">//设置项名称</span></span><br><span class="line">            <span class="attr">&quot;includePath&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/**&quot;</span><span class="comment">/*包含的头文件路径，</span></span><br><span class="line"><span class="comment">                **表示递归包含目录下所有头文件路径*/</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">&quot;defines&quot;</span>: [<span class="comment">//预处理器定义列表</span></span><br><span class="line">                <span class="string">&quot;_DEBUG&quot;</span>,</span><br><span class="line">                <span class="string">&quot;UNICODE&quot;</span>,</span><br><span class="line">                <span class="string">&quot;_UNICODE&quot;</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">&quot;cStandard&quot;</span>: <span class="string">&quot;c17&quot;</span>,<span class="comment">//C语言标准</span></span><br><span class="line">            <span class="attr">&quot;cppStandard&quot;</span>: <span class="string">&quot;gnu++17&quot;</span>,<span class="comment">//C++标准</span></span><br><span class="line">            <span class="attr">&quot;intelliSenseMode&quot;</span>: <span class="string">&quot;windows-gcc-x64&quot;</span><span class="comment">//代码补全模式</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>形如<code>$&#123;workspaceFolder&#125;</code>的参数是VSCode的变量，该变量为当前工作区。更多类似变量参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/bailsong/article/details/77527773">这里</a>。</p>
-<p>当<code>.c</code>文件引用了不是C标准库内或不在工作区的函数时，需要将其头文件路径添加到<code>includePath</code>属性内，以<code>,</code>分隔，可选绝对路径或相对路径，一般是结合<code>$&#123;&#125;</code>等变量使用的相对路径，方便代码工程的移动。</p>
-<p>以后复杂的工程常常需要拆分成多个<code>.c</code>源文件和<code>.h</code>头文件，因此需要用到<code>includePath</code>来管理。</p>
-<p><code>**</code>为通配符，请自行了解VSCode的通配符机制。类似于正则表达式，可以实现某一类文件的选取。</p>
-<h1 id="6-依据类似步骤配置一个C-工作区环境并完成运行和调试"><a href="#6-依据类似步骤配置一个C-工作区环境并完成运行和调试" class="headerlink" title="6 依据类似步骤配置一个C++工作区环境并完成运行和调试"></a>6 依据类似步骤配置一个C++工作区环境并完成运行和调试</h1><p>上述工作基本与C++配置的内容相同，有所不同的是<code>C++</code>的编译器是<code>g++。exe</code>，调试器也是<code>gdb.exe</code></p>
-<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ul>
-<li>==务必保证所有的路径、文件名中不要出现中文等非ASCII字符==</li>
-</ul>
-
+<h2 id="3-2-了解程序如何运行"><a href="#3-2-了解程序如何运行" class="headerlink" title="3.2 了解程序如何运行"></a>3.2 了解程序如何运行</h2>
+        
+          <a class="article-more-a" href="/posts/16588.html#more">more >></a>
+        
       
 
       
