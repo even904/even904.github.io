@@ -169,6 +169,183 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-STM32_USART_SPI主从机通信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/56674.html">STM32F407VET6&amp;STM32F103C6T6 ADC+USART+SPI主从机通信</a>
+    </h1>
+  
+
+        
+        
+<a href="/posts/56674.html" class="archive-article-date">
+  	<time datetime="2023-05-31T02:22:48.003Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-31</time>
+</a>
+
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><strong>无特殊声明，本站工程开源协议均为MIT license</strong><br>必须在发行版里包含原许可协议的声明,无论以二进制发布的还是以源代码发布的</p>
+</blockquote>
+<blockquote>
+<p>本项目为嵌入式课程设计，仅供学习交流使用，如有问题请联系QQ:1764269411</p>
+</blockquote>
+<ul>
+<li>百度网盘下载：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1s9v3XAK30bEIzBVs-xn-qQ?pwd=DSPI">链接</a> 提取码：DSPI</li>
+</ul>
+<hr>
+<h1 id="PartA-使用说明"><a href="#PartA-使用说明" class="headerlink" title="PartA:使用说明"></a>PartA:使用说明</h1><h2 id="开发工具："><a href="#开发工具：" class="headerlink" title="开发工具："></a>开发工具：</h2><p>HAL库,keil MDK<br>串口上位机vofa+ </p>
+<h2 id="硬件："><a href="#硬件：" class="headerlink" title="硬件："></a>硬件：</h2><ul>
+<li>主机：STM32F407VET6 </li>
+<li>从机：STM32F103C6T6</li>
+<li>USB转TTL：CH340</li>
+</ul>
+<h2 id="技术参数："><a href="#技术参数：" class="headerlink" title="技术参数："></a>技术参数：</h2><ul>
+<li>USART 波特率115200</li>
+<li>SPI 全双工带硬件NSS 波特率5.25MBit/s</li>
+<li>ADC 双通道采集 0~3.3V</li>
+</ul>
+<h2 id="操作说明："><a href="#操作说明：" class="headerlink" title="操作说明："></a>操作说明：</h2><p>STM32F407VET6作为主机，采集PA0和PA1两个通道上的ADC信号，通过SPI1与从机STM32F103C6T6的SPI1相连，将ADC数据帧传输到从机。从机SPI1接收数据后，进行数据帧解析出ADC值，再通过USART1发送ADC数据，以Firewater协议形式经CH340传输至上位机VOFA+，上位机可以显示数据及波形。</p>
+<h2 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h2><ul>
+<li>上电后，需复位一次从机。</li>
+</ul>
+<hr>
+<h1 id="PartB-系统设计说明"><a href="#PartB-系统设计说明" class="headerlink" title="PartB:系统设计说明"></a>PartB:系统设计说明</h1>
+        
+          <a class="article-more-a" href="/posts/56674.html#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">STM32</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ADC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">USART</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SPI</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">主从机通信</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32//" class="article-tag-list-link color1">STM32</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/ADC//" class="article-tag-list-link color4">ADC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/USART//" class="article-tag-list-link color1">USART</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/F103C6T6//" class="article-tag-list-link color4">F103C6T6</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/STM32/SPI//" class="article-tag-list-link color4">SPI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/posts/56674.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+	<div id="gitalk-container"></div> 
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://priesttomb.github.io/js/md5.min.js"></script>
+<script type="text/javascript">
+
+var gitalk = new Gitalk({
+  clientID: 'Ov23lijoegf0eWmTIljS',
+  clientSecret: '0b285a67e945f478e8eb32cdad78452f12e95e7c',
+  repo: 'GitComments',      // The repository of store comments,
+  owner: 'even904',
+  admin: ['even904'],
+  id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+  distractionFreeMode: true // Facebook-like distraction free mode
+})
+gitalk.render('gitalk-container')
+
+</script>
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
+  
     <article id="post-256点双通道FFT频谱分析仪" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -350,6 +527,14 @@ gitalk.render('gitalk-container')
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
   
     <article id="post-Research Report" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -530,6 +715,14 @@ gitalk.render('gitalk-container')
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
   
   
     <nav id="page-nav">
@@ -760,6 +953,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
             
             <div class="clearfix"></div>

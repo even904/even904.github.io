@@ -169,6 +169,252 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/posts/41682.html">设计模式</a>
+    </h1>
+  
+
+        
+        
+<a href="/posts/41682.html" class="archive-article-date">
+  	<time datetime="2024-07-24T01:43:17.948Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2024-07-24</time>
+</a>
+
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、-策略模式"><a href="#一、-策略模式" class="headerlink" title="一、 策略模式"></a>一、 策略模式</h1><blockquote>
+<p>策略模式定义了算法（或行为）族，分别封装在不同的类中，算法可以在运行时被选择和替换，让算法的变化独立于使用算法的客户。</p>
+</blockquote>
+<p>非常拗口的定义，使人感到迷惑，还是需要用具体样例来说明。</p>
+<h2 id="1-设计原则"><a href="#1-设计原则" class="headerlink" title="1. 设计原则"></a>1. 设计原则</h2><ul>
+<li>分开变化和不变的部分</li>
+<li>针对接口编程，而非针对实现编程</li>
+<li>多用组合，少用继承<h2 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2. 应用场景"></a>2. 应用场景</h2></li>
+<li>一个系统中有许多类，但它们的区别仅有行为不同<h2 id="3-应用样例"><a href="#3-应用样例" class="headerlink" title="3. 应用样例"></a>3. 应用样例</h2><h4 id="3-1-问题"><a href="#3-1-问题" class="headerlink" title="3.1 问题"></a>3.1 问题</h4></li>
+<li>一个抬升器（Lift）有许多执行器（Motor），根据不同的任务需求，它们需要工作在不同的模式下，不同模式对应电机的移动速度、先后顺序不同。</li>
+<li>假设该装置由一个抬升电机(z轴)和一个前伸电机(y轴)组成。装置有一级(First)、二级(Second)三种模式。其中，一级先前伸，再抬升；二级则先抬升，再前伸，且速度更快。</li>
+<li>存在两个用户(Auto/Manual)会使用抬升器。</li>
+</ul>
+<h4 id="3-2-分析"><a href="#3-2-分析" class="headerlink" title="3.2 分析"></a>3.2 分析</h4><ul>
+<li>找出不变的部分：<ul>
+<li>需要设置的两个电机最终位置<code>set_position</code>相同</li>
+<li>不同模式下都需要执行移动(Move)这一动作</li>
+</ul>
+</li>
+<li>找出变化的部分：<ul>
+<li>需要设置的两个电机执行顺序不同</li>
+<li>电机运动速度<code>set_speed</code>不同</li>
+<li>抬升模式(LiftMode)不同，且需要进行切换</li>
+</ul>
+</li>
+<li>谁是用户：<ul>
+<li>Auto、Manual是使用算法的用户</li>
+</ul>
+</li>
+<li>谁是算法：<ul>
+<li>两种不同抬升模式(LiftMode)的方法是具体的算法</li>
+</ul>
+</li>
+<li>用户如何调用算法：<ul>
+<li>需要将抬升模式(LiftMode)的方法抽象为一个接口，从而给用户调用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>策略模式 Strategy Mode</strong></p>
+</blockquote>
+<pre class="mermaid">---
+title: Hello Title
+config:
+  themeCSS: '.mermaid { background-color: #f0f0f0; }'
+---
+classDiagram
+    class LiftCtr{
+        +Motor zMotor
+        +Motor yMotor
+        +LiftMode Mode
+        +move()
+        +SetMode()
+    }
+    LiftCtr --> LiftMode
+    class LiftMode{
+        >>Interface<<
+        +SetMove()
+    }
+    LiftMode <|.. FirstLiftMode
+    class FirstLiftMode{
+        +SetMove()
+    }
+    LiftMode <|.. SecondLiftMode
+    class SecondLiftMode{
+        +SetMove()
+    }
+
+    LiftCtr <|-- AutoLiftCtr
+    class AutoLiftCtr{
+      +move()
+      +SetMode(LiftMode mode)
+    }
+    LiftCtr <|-- ManualLiftCtr
+    class ManualLiftCtr{
+      +move()
+      +SetMode(LiftMode mode)
+    }
+    Motor o-- LiftCtr
+    Motor --|> zMotor
+    Motor --|> yMotor
+    class Motor{
+        +float speed
+        +float position
+        +set_speed(float s)
+        +set_position(float p)
+        +start()
+        +...
+    }</pre>
+<p>LiftCtr为基本类，由具体的用户（Auto/Manual）继承。抬升模式(LiftMode)是接口，由具体的抬升算法（FirstLiftMode/SencondLiftMode）来继承。运行时，用户可以切换抬升算法，切换方法（SetMode(LiftMode mode)）定义在基类中。在运行过程中，用户会调用到当前抬升模式的SetMove()方法，从而执行相应的抬升动作。</p>
+<h4 id="3-3-代码"><a href="#3-3-代码" class="headerlink" title="3.3 代码"></a>3.3 代码</h4><figure class="highlight cpp"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Motor</span> &#123;</span></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">float</span> speed;</span><br><span class="line">    <span class="keyword">float</span> position;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Motor</span>() : <span class="built_in">speed</span>(<span class="number">0</span>), <span class="built_in">position</span>(<span class="number">0</span>) &#123;&#125; <span class="comment">// 构造函数</span></span><br><span class="line">    ~<span class="built_in">Motor</span>() &#123;&#125; <span class="comment">// 析构函数</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">set_speed</span><span class="params">(<span class="keyword">float</span> s)</span> </span>&#123; speed = s; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">set_position</span><span class="params">(<span class="keyword">float</span> p)</span> </span>&#123; position = p; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123; <span class="comment">/* 开始运行的逻辑 */</span> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 行为基类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LiftMode</span> &#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">SetMove</span><span class="params">(Motor&amp; zMotor, Motor&amp; yMotor)</span> </span>= <span class="number">0</span>; <span class="comment">// 纯虚函数，公共接口</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 行为实现</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstLiftMode</span> :</span> <span class="keyword">public</span> LiftMode &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">SetMove</span><span class="params">(Motor&amp; zMotor, Motor&amp; yMotor)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">      yMotor.<span class="built_in">set_speed</span>(<span class="number">5</span>);</span><br><span class="line">      yMotor.<span class="built_in">set_position</span>(<span class="number">20</span>);</span><br><span class="line">      yMotor.<span class="built_in">start</span>();</span><br><span class="line">      zMotor.<span class="built_in">set_speed</span>(<span class="number">5</span>);</span><br><span class="line">      zMotor.<span class="built_in">set_position</span>(<span class="number">50</span>);</span><br><span class="line">      zMotor.<span class="built_in">start</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecondLiftMode</span> :</span> <span class="keyword">public</span> LiftMode &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">SetMove</span><span class="params">(Motor&amp; zMotor, Motor&amp; yMotor)</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">      zMotor.<span class="built_in">set_speed</span>(<span class="number">10</span>);</span><br><span class="line">      zMotor.<span class="built_in">set_position</span>(<span class="number">50</span>);</span><br><span class="line">      zMotor.<span class="built_in">start</span>();</span><br><span class="line">      yMotor.<span class="built_in">set_speed</span>(<span class="number">10</span>);</span><br><span class="line">      yMotor.<span class="built_in">set_position</span>(<span class="number">20</span>);</span><br><span class="line">      yMotor.<span class="built_in">start</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 用户基类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LiftCtr</span> &#123;</span></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    std::unique_ptr&lt;LiftMode&gt; mode;</span><br><span class="line">    Motor zMotor;</span><br><span class="line">    Motor yMotor;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">SetMode</span><span class="params">(std::unique_ptr&lt;LiftMode&gt; new_mode)</span> </span>&#123;</span><br><span class="line">        mode = std::<span class="built_in">move</span>(new_mode);<span class="comment">//std::move被用来将new_mode移动赋值给mode</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mode) &#123;</span><br><span class="line">            <span class="comment">/* 用户委托行为类完成相应动作 */</span></span><br><span class="line">            mode-&gt;<span class="built_in">SetMove</span>(zMotor, yMotor);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 实际用户类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AutoLiftCtr</span> :</span> <span class="keyword">public</span> LiftCtr &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    std::string instance = <span class="string">&quot;Auto&quot;</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ManualLiftCtr</span> :</span> <span class="keyword">public</span> LiftCtr &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    std::string instance = <span class="string">&quot;Manual&quot;</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<!-- # 二、 观察者模式
+
+> 观察者模式，也可称为发布-订阅模式
+
+## 1. 应用场景
+
+
+## 2. 应用样例
+
+
+## 3. 
+
+# 三、 装饰者模式
+
+一个机器人(Robot)需要进行前后左右的移动控制(RobotCtr)，该机器人的底盘形态可能有多个种类，需要不同的驱动规则。
+
+**Robot Example**
+```mermaid
+---
+title: Decorator mode
+---
+classDiagram
+    class RobotCtr{
+        +float set_vx
+        +float set_vy
+        +move()
+    }
+    note for RobotCtr"interface: move()"
+    RobotCtr <|-- MecanumRobotCtr
+    class MecanumRobotCtr{
+        +move()
+    }
+    RobotCtr <|-- OmniRobotCtr
+    class OmniRobotCtr{
+        +move()
+    }
+    RobotCtr <|-- BalanceRobotCtr
+    class BalanceRobotCtr{
+        +move()
+    }
+``` -->
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">面向对象</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/posts/41682.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+	<div id="gitalk-container"></div> 
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://priesttomb.github.io/js/md5.min.js"></script>
+<script type="text/javascript">
+
+var gitalk = new Gitalk({
+  clientID: 'Ov23lijoegf0eWmTIljS',
+  clientSecret: '0b285a67e945f478e8eb32cdad78452f12e95e7c',
+  repo: 'GitComments',      // The repository of store comments,
+  owner: 'even904',
+  admin: ['even904'],
+  id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+  distractionFreeMode: true // Facebook-like distraction free mode
+})
+gitalk.render('gitalk-container')
+
+</script>
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
+  
     <article id="post-VSCode基于本地大模型实现代码注释" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -301,6 +547,14 @@ gitalk.render('gitalk-container')
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
   
     <article id="post-FreeRTOS与CMSIS-OS2学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -480,6 +734,14 @@ gitalk.render('gitalk-container')
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
   
     <article id="post-VSCode搭建C_C++开发环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -633,6 +895,14 @@ gitalk.render('gitalk-container')
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
   
     <article id="post-hexo博客配置优化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -677,13 +947,13 @@ gitalk.render('gitalk-container')
 </ul>
 <ol>
 <li>安装插件<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-abbrlink --save</span><br></pre></td></tr></table></figure></li>
-<li>在全局设置文件<code>_config.yml</code>中添加<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># URL</span><br><span class="line">## Set your site url here. For example, if you use GitHub Page, set url as &#x27;https://username.github.io/project&#x27;</span><br><span class="line">url: http://even904.github.io</span><br><span class="line">permalink: posts/:abbrlink.html #注意此处的修改 </span><br><span class="line"></span><br><span class="line">#原先为:year/:month/:day/:title/ </span><br><span class="line">#其他方式</span><br><span class="line">#1.md文章信息页自定义pid，再使用pid进行标识/posts/:pid/ </span><br><span class="line">#2.目录+标题模式:category/:title/</span><br><span class="line"></span><br><span class="line">permalink_defaults: posts/:abbrlink.html</span><br><span class="line">pretty_urls:</span><br><span class="line">  trailing_index: true # Set to false to remove trailing &#x27;index.html&#x27; from permalinks</span><br><span class="line">  trailing_html: true # Set to false to remove trailing &#x27;.html&#x27; from permalinks</span><br></pre></td></tr></table></figure></li>
+<li>在全局设置文件<code>_config.yml</code>中添加<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## Set your site url here. For example, if you use GitHub Page, set url as &#x27;https://username.github.io/project&#x27;</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">http://even904.github.io</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">posts/:abbrlink.html</span> <span class="comment">#注意此处的修改 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#原先为:year/:month/:day/:title/ </span></span><br><span class="line"><span class="comment">#其他方式</span></span><br><span class="line"><span class="comment">#1.md文章信息页自定义pid，再使用pid进行标识/posts/:pid/ </span></span><br><span class="line"><span class="comment">#2.目录+标题模式:category/:title/</span></span><br><span class="line"></span><br><span class="line"><span class="attr">permalink_defaults:</span> <span class="string">posts/:abbrlink.html</span></span><br><span class="line"><span class="attr">pretty_urls:</span></span><br><span class="line">  <span class="attr">trailing_index:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;index.html&#x27; from permalinks</span></span><br><span class="line">  <span class="attr">trailing_html:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;.html&#x27; from permalinks</span></span><br></pre></td></tr></table></figure></li>
 <li>生成、预览和部署</li>
 </ol>
 <h2 id="添加访问人数"><a href="#添加访问人数" class="headerlink" title="添加访问人数"></a>添加访问人数</h2><p>参考：腾讯云@試毅-思伟:<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1404868#:~:text=Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%201%201%E3%80%81%E9%85%8D%E7%BD%AE%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF%E4%B8%8D%E8%92%9C%E5%AD%90%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD%20%E5%9C%A8%20themes%2Fyilia%2F_config.yml%20%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7%20%23%20%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD%28%E4%B8%8D%E8%92%9C%E5%AD%90%29,%E5%BC%80%E5%A4%B4%E6%B7%BB%E5%8A%A0%E5%A6%82%E4%B8%8B%E4%BB%A3%E7%A0%81%20...%204%204%E3%80%81%E4%BD%9C%E8%80%85%E5%AF%84%E8%AF%AD%20Everything%20is%20ok.%20">Hexo博客添加访问量统计</a><br>笔者使用yilla主题，这里直接采用<strong>不蒜子</strong>进行统计。</p>
 <h4 id="操作步骤-1"><a href="#操作步骤-1" class="headerlink" title="操作步骤"></a>操作步骤</h4><ol>
 <li><p>在<code>themes/yilia/_config.yml</code>添加属性</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">busuanzi:</span><br><span class="line">    enable: true</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">busuanzi:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
 <li><p>在<code>themes/yilia/layout/_partial/footer.ejs</code>末尾添加如下代码,注意添加在<code>&lt;footer&gt;&lt;/footer&gt;</code>标签内</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.busuanzi &amp;&amp; theme.busuanzi.enable)&#123; %&gt;</span><br><span class="line">        &lt;!-- 不蒜子统计 --&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_site_pv&quot;&gt;</span><br><span class="line">                本站总访问量&lt;span id=&quot;busuanzi_value_site_pv&quot;&gt;&lt;/span&gt;次</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">        &lt;span class=&quot;post-meta-divider&quot;&gt;|&lt;/span&gt;</span><br><span class="line">        &lt;span id=&quot;busuanzi_container_site_uv&quot; style=&#x27;display:none&#x27;&gt;</span><br><span class="line">                本站访客数&lt;span id=&quot;busuanzi_value_site_uv&quot;&gt;&lt;/span&gt;人</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">        &lt;script async src=&quot;//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure></li>
 <li><p>在<code>themes/yilia/layout/_partial/post/date.ejs</code>开头添加如下代码</p>
@@ -731,7 +1001,7 @@ gitalk.render('gitalk-container')
 </tbody></table>
 <p>创建完成，需记录<code>Client ID</code>，还需生成一个<code>Client secrets</code>并记录，稍后使用。</p>
 <h4 id="添加配置信息"><a href="#添加配置信息" class="headerlink" title="添加配置信息"></a>添加配置信息</h4><p>在<code>themes\yilia\_config.yml</code>中添加如下配置信息，以备调用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">  enable: true #开启gitalk评论，不需要配置</span><br><span class="line">  owner: #github 用户名</span><br><span class="line">  admin: #github 仓库管理员用户名，多个管理员可以逗号分隔</span><br><span class="line">  repo: #github 用于存储评论的仓库名，如GitComments</span><br><span class="line">  ClientID: #OAuth中获取的ClientID</span><br><span class="line">  ClientSecret: #OAuth中获取的ClientSecret</span><br><span class="line">  labels: #github issue 对应的issue标签，可任意取</span><br><span class="line">  distractionFreeMode: true  #无干扰模式，不需要更改</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">gitalk:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment">#开启gitalk评论，不需要配置</span></span><br><span class="line">  <span class="attr">owner:</span> <span class="comment">#github 用户名</span></span><br><span class="line">  <span class="attr">admin:</span> <span class="comment">#github 仓库管理员用户名，多个管理员可以逗号分隔</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="comment">#github 用于存储评论的仓库名，如GitComments</span></span><br><span class="line">  <span class="attr">ClientID:</span> <span class="comment">#OAuth中获取的ClientID</span></span><br><span class="line">  <span class="attr">ClientSecret:</span> <span class="comment">#OAuth中获取的ClientSecret</span></span><br><span class="line">  <span class="attr">labels:</span> <span class="comment">#github issue 对应的issue标签，可任意取</span></span><br><span class="line">  <span class="attr">distractionFreeMode:</span> <span class="literal">true</span>  <span class="comment">#无干扰模式，不需要更改</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="创建gitalk代码段"><a href="#创建gitalk代码段" class="headerlink" title="创建gitalk代码段"></a>创建gitalk代码段</h4><p>在<code>themes\yilia\layout\_partial\post\</code>路径下创建<code>gtialk.ejs</code>，其内容如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;gitalk-container&quot;&gt;&lt;/div&gt; </span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/gitalk/dist/gitalk.css&quot;&gt;</span><br><span class="line">&lt;script src=&quot;https://unpkg.com/gitalk/dist/gitalk.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://priesttomb.github.io/js/md5.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"></span><br><span class="line">var gitalk = new Gitalk(&#123;</span><br><span class="line">  clientID: &#x27;&lt;%=theme.gitalk.ClientID%&gt;&#x27;,</span><br><span class="line">  clientSecret: &#x27;&lt;%=theme.gitalk.ClientSecret%&gt;&#x27;,</span><br><span class="line">  repo: &#x27;&lt;%=theme.gitalk.repo%&gt;&#x27;,      // The repository of store comments,</span><br><span class="line">  owner: &#x27;&lt;%=theme.gitalk.owner%&gt;&#x27;,</span><br><span class="line">  admin: [&#x27;&lt;%=theme.gitalk.admin%&gt;&#x27;],</span><br><span class="line">  id: md5(location.pathname),      // Ensure uniqueness and length less than 50</span><br><span class="line">  distractionFreeMode: true // Facebook-like distraction free mode</span><br><span class="line">&#125;)</span><br><span class="line">gitalk.render(&#x27;gitalk-container&#x27;)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
@@ -833,6 +1103,14 @@ gitalk.render('gitalk-container')
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
+</script>
   
     <article id="post-纵向与学习路线" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -971,175 +1249,14 @@ gitalk.render('gitalk-container')
 </script>
 
 
-  
-    <article id="post-STM32_USART_SPI主从机通信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/posts/56674.html">STM32F407VET6&amp;STM32F103C6T6 ADC+USART+SPI主从机通信</a>
-    </h1>
-  
-
-        
-        
-<a href="/posts/56674.html" class="archive-article-date">
-  	<time datetime="2023-05-31T02:22:48.003Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-31</time>
-</a>
-
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p><strong>无特殊声明，本站工程开源协议均为MIT license</strong><br>必须在发行版里包含原许可协议的声明,无论以二进制发布的还是以源代码发布的</p>
-</blockquote>
-<blockquote>
-<p>本项目为嵌入式课程设计，仅供学习交流使用，如有问题请联系QQ:1764269411</p>
-</blockquote>
-<ul>
-<li>百度网盘下载：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1s9v3XAK30bEIzBVs-xn-qQ?pwd=DSPI">链接</a> 提取码：DSPI</li>
-</ul>
-<hr>
-<h1 id="PartA-使用说明"><a href="#PartA-使用说明" class="headerlink" title="PartA:使用说明"></a>PartA:使用说明</h1><h2 id="开发工具："><a href="#开发工具：" class="headerlink" title="开发工具："></a>开发工具：</h2><p>HAL库,keil MDK<br>串口上位机vofa+ </p>
-<h2 id="硬件："><a href="#硬件：" class="headerlink" title="硬件："></a>硬件：</h2><ul>
-<li>主机：STM32F407VET6 </li>
-<li>从机：STM32F103C6T6</li>
-<li>USB转TTL：CH340</li>
-</ul>
-<h2 id="技术参数："><a href="#技术参数：" class="headerlink" title="技术参数："></a>技术参数：</h2><ul>
-<li>USART 波特率115200</li>
-<li>SPI 全双工带硬件NSS 波特率5.25MBit/s</li>
-<li>ADC 双通道采集 0~3.3V</li>
-</ul>
-<h2 id="操作说明："><a href="#操作说明：" class="headerlink" title="操作说明："></a>操作说明：</h2><p>STM32F407VET6作为主机，采集PA0和PA1两个通道上的ADC信号，通过SPI1与从机STM32F103C6T6的SPI1相连，将ADC数据帧传输到从机。从机SPI1接收数据后，进行数据帧解析出ADC值，再通过USART1发送ADC数据，以Firewater协议形式经CH340传输至上位机VOFA+，上位机可以显示数据及波形。</p>
-<h2 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h2><ul>
-<li>上电后，需复位一次从机。</li>
-</ul>
-<hr>
-<h1 id="PartB-系统设计说明"><a href="#PartB-系统设计说明" class="headerlink" title="PartB:系统设计说明"></a>PartB:系统设计说明</h1>
-        
-          <a class="article-more-a" href="/posts/56674.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">STM32</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ADC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">USART</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SPI</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">主从机通信</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/STM32//" class="article-tag-list-link color1">STM32</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/STM32/ADC//" class="article-tag-list-link color4">ADC</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/STM32/USART//" class="article-tag-list-link color1">USART</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/STM32/F103C6T6//" class="article-tag-list-link color4">F103C6T6</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/STM32/SPI//" class="article-tag-list-link color4">SPI</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/posts/56674.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-	<div id="gitalk-container"></div> 
-<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<script src="https://priesttomb.github.io/js/md5.min.js"></script>
-<script type="text/javascript">
-
-var gitalk = new Gitalk({
-  clientID: 'Ov23lijoegf0eWmTIljS',
-  clientSecret: '0b285a67e945f478e8eb32cdad78452f12e95e7c',
-  repo: 'GitComments',      // The repository of store comments,
-  owner: 'even904',
-  admin: ['even904'],
-  id: md5(location.pathname),      // Ensure uniqueness and length less than 50
-  distractionFreeMode: true // Facebook-like distraction free mode
-})
-gitalk.render('gitalk-container')
-
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad:true,
+    theme:'dark', // dark or forest
+    themeCSS: '.mermaid { background-color: #ffffff; }'
+  });
 </script>
-
-</script>
-
-
   
   
     <nav id="page-nav">
@@ -1370,6 +1487,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
             
             <div class="clearfix"></div>
